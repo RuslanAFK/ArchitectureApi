@@ -1,0 +1,18 @@
+﻿<wpf:ResourceDictionary xml:space="preserve" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:s="clr-namespace:System;assembly=mscorlib" xmlns:ss="urn:shemas-jetbrains-com:settings-storage-xaml" xmlns:wpf="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+	<s:String x:Key="/Default/Environment/AssemblyExplorer/XmlDocument/@EntryValue">&lt;AssemblyExplorer&gt;&#xD;
+  &lt;Assembly Path="C:\Users\Public\Documents\programs\uni\ArchiterctureApi\ArchitectureApi\bin\Debug\net7.0\Humanizer.dll" /&gt;&#xD;
+&lt;/AssemblyExplorer&gt;</s:String>
+	<s:String x:Key="/Default/Environment/Hierarchy/Build/BuildTool/CustomBuildToolPath/@EntryValue">C:\Program Files\JetBrains\JetBrains Rider 2023.3\tools\MSBuild\Current\Bin\MSBuild.exe</s:String>
+	<s:Int64 x:Key="/Default/Environment/Hierarchy/Build/BuildTool/MsbuildVersion/@EntryValue">1114112</s:Int64>
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=0dfdf457_002D5fb6_002D42fc_002D9d2e_002Df9173789bbdc/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" IsActive="True" Name="GetVisits_Returns1_WhenOneVisitIsThere" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
+  &lt;TestAncestor&gt;&#xD;
+    &lt;TestId&gt;NUnit3x::BC68ED37-0177-49E6-8215-9290BD5B5BCD::net8.0::ArchitectureTests.VisitServiceTest&lt;/TestId&gt;&#xD;
+  &lt;/TestAncestor&gt;&#xD;
+&lt;/SessionState&gt;</s:String>
+	
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=e1244c06_002Da443_002D4c63_002Da7af_002D1eb582859e3e/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="GetVisits_ReturnsUnauthorized_WhenUserIsNull" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
+  &lt;TestAncestor&gt;&#xD;
+    &lt;TestId&gt;NUnit3x::BC68ED37-0177-49E6-8215-9290BD5B5BCD::net8.0::ArchitectureTests.VisitServiceTest.GetVisits_ReturnsNone_WhenNoVisitsInDb&lt;/TestId&gt;&#xD;
+    &lt;TestId&gt;NUnit3x::BC68ED37-0177-49E6-8215-9290BD5B5BCD::net8.0::ArchitectureTests.VisitServiceTest.GetVisits_ReturnsOk_WhenUserRoleIsCorrect&lt;/TestId&gt;&#xD;
+  &lt;/TestAncestor&gt;&#xD;
+&lt;/SessionState&gt;</s:String></wpf:ResourceDictionary>
