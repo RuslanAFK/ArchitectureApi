@@ -1,5 +1,6 @@
 ﻿using ArchitectureApi.BusinessLogic.Factories;
 using ArchitectureApi.Dtos;
+using ArchitectureApi.Models;
 using ArchitectureApi.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -7,7 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace ArchitectureApi.Controllers;
 
 [ApiController]
-[Authorize(Roles = "Patient")]
+//[Authorize(Roles = "Patient")]
 public class PatientController : Controller
 {
     private readonly IVisitService _visitService;
@@ -68,7 +69,7 @@ public class PatientController : Controller
     [Route("/api/patient/set-appointment")]
     public async Task<IActionResult> SetAppointment(SetAppointmentDto dto)
     {
-        var userName = User.Identity?.Name;
+       /* var userName = User.Identity?.Name;
         var freeSlots = _doctorService.GetDoctorFreeSlots(dto.DoctorId);
         if (!freeSlots.Any(x => x.From == dto.Time))
         {
@@ -87,8 +88,8 @@ public class PatientController : Controller
         {
             return NotFound("Patient not found.");
         }
-
-        var visit = await _visitService.Create(doctor, patient, dto.Time);
+*/
+        var visit = await _visitService.Create(new User(), new User(), dto.Time);
         return Ok(visit);
     } 
 }

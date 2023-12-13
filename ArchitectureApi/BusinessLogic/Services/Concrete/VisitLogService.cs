@@ -1,18 +1,17 @@
 ﻿using System.Data.Common;
+using ArchitectureApi.BusinessLogic.Services.Concrete;
 using ArchitectureApi.Dtos;
 using ArchitectureApi.Extensions;
 using ArchitectureApi.Models;
 
 namespace ArchitectureApi.Services.Concrete;
 
-public class VisitLogService : IVisitService
+public class VisitLogService : VisitServiceDecorator, IVisitService
 {
-    private IVisitService Decoratee { get; }
     private ILogger<IVisitService> _logger;
     
-    public VisitLogService(IVisitService decoratee, ILogger<IVisitService> logger)
+    public VisitLogService(IVisitService decoratee, ILogger<IVisitService> logger) : base(decoratee)
     {
-        Decoratee = decoratee;
         _logger = logger;
     }
 
@@ -20,7 +19,7 @@ public class VisitLogService : IVisitService
     {
         try
         {
-            var visits = Decoratee.GetVisits(userName);
+            var visits = base.GetVisits(userName);
             _logger.LogInformation("Visits fetched: {0}", visits.Count);
             return visits;
         }
@@ -35,7 +34,7 @@ public class VisitLogService : IVisitService
     {
         try
         {
-            var treatments = Decoratee.GetTreatments(userName);
+            var treatments = base.GetTreatments(userName);
             _logger.LogInformation("Treatments fetched: {0}", treatments.Count);
             return treatments;
         }
@@ -50,7 +49,7 @@ public class VisitLogService : IVisitService
     {
         try
         {
-            var visit = await Decoratee.Create(doctor, patient, time);
+            var visit = await base.Create(doctor, patient, time);
             _logger.LogInformation("Successfully created visit for: {0:f}, doctor: {1}",
                 visit.Time,
                 doctor.FirstName.AppendLastName(doctor.LastName));
