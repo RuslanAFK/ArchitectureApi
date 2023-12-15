@@ -1,4 +1,5 @@
-﻿using ArchitectureApi.Dtos;
+﻿using ArchitectureApi.BusinessLogic.Services.Abstract;
+using ArchitectureApi.Dtos;
 using ArchitectureApi.Models;
 using ArchitectureApi.Services;
 
@@ -13,12 +14,12 @@ public abstract class VisitServiceDecorator : IVisitService
         Decoratee = decoratee;
     }
 
-    public List<GetVisitDto> GetVisits(string userName)
+    public List<GetVisitDto> GetVisits(int userName)
     {
         return Decoratee.GetVisits(userName);
     }
 
-    public List<GetTreatmentsDto> GetTreatments(string userName)
+    public List<GetTreatmentsDto> GetTreatments(int userName)
     {
         return Decoratee.GetTreatments(userName);
     }

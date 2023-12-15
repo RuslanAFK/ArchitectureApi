@@ -27,6 +27,24 @@ public class UserBuilder
         return this;
     }
     
+    public UserBuilder WithPhone(string data)
+    {
+        _user.Phone = data;
+        return this;
+    }
+    
+    public UserBuilder WithEmail(string data)
+    {
+        _user.Email = data;
+        return this;
+    }
+    
+    public UserBuilder WithAddress(string avatarPath)
+    {
+        _user.Address = avatarPath;
+        return this;
+    }
+    
     public UserBuilder AsPatient()
     {
         _user.Role = Roles.Patient.ToString();

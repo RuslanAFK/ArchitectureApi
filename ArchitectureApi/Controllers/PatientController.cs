@@ -1,6 +1,5 @@
-﻿using ArchitectureApi.BusinessLogic.Factories;
-using ArchitectureApi.Dtos;
-using ArchitectureApi.Models;
+﻿using ArchitectureApi.Dtos;
+using ArchitectureApi.Enums;
 using ArchitectureApi.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -8,88 +7,55 @@ using Microsoft.AspNetCore.Mvc;
 namespace ArchitectureApi.Controllers;
 
 [ApiController]
-//[Authorize(Roles = "Patient")]
+[Route("api/[action]")]
 public class PatientController : Controller
 {
-    private readonly IVisitService _visitService;
-    private readonly IDoctorService _doctorService;
     private readonly IPatientService _patientService;
 
-    public PatientController(IVisitService visitService, IDoctorService doctorService, IPatientService patientService)
+    private readonly IPatientProvider _patientProvider;
+
+    public PatientController(IPatientService patientService, IPatientProvider patientProvider)
     {
-        _visitService = visitService;
-        _doctorService = doctorService;
         _patientService = patientService;
+        _patientProvider = patientProvider;
     }
 
     [HttpGet]
-    [Route("/api/patient/signup")]
+    [ActionName("patient/signup")]
     [AllowAnonymous]
     public async Task<IActionResult> CreateAccount(SignupDto data)
     {
-        var patient = new UserBuilder(data.FirstName, data.LastName)
-            .WithSecondName(data.SecondName)
-            .WithAvatar(data.Avatar)
-            .AsPatient()
-            .Build();
-
-        _patientService.Signup(patient);
+        _patientService.Signup(data);
         return Ok();
     }
     
     [HttpGet]
-    [Route("/api/patient/visits")]
-    public async Task<IActionResult> GetVisits()
+    [ActionName("patient/cabinet")]
+    [AllowAnonymous]
+    public async Task<IActionResult> PersonalCabinet(SignupDto data)
     {
-        var userName = User.Identity?.Name;
-        if (userName == null)
+        var authDto = _patientProvider.Current;
+        if (authDto is null || authDto.Role != Roles.Patient.ToString())
         {
             return Unauthorized();
         }
 
-        var visits = _visitService.GetVisits(userName);
-        return Ok(visits);
+        var patient = _patientService.GetPersonalInfoById(authDto.Id);
+        return Ok(patient);
     }
     
     [HttpGet]
-    [Route("/api/patient/treatments")]
-    public async Task<IActionResult> GetTreatments()
+    [ActionName("patient/edit-cabinet")]
+    [AllowAnonymous]
+    public async Task<IActionResult> EditCabinet(EditPatientDto data)
     {
-        var userName = User.Identity?.Name;
-        if (userName == null)
+        var authDto = _patientProvider.Current;
+        if (authDto is null || authDto.Role != Roles.Patient.ToString())
         {
             return Unauthorized();
         }
-
-        var visits = _visitService.GetTreatments(userName);
-        return Ok(visits);
+        
+        _patientService.EditPersonalInfoById(authDto.Id, data);
+        return Ok();
     }
-    
-    [HttpPost]
-    [Route("/api/patient/set-appointment")]
-    public async Task<IActionResult> SetAppointment(SetAppointmentDto dto)
-    {
-       /* var userName = User.Identity?.Name;
-        var freeSlots = _doctorService.GetDoctorFreeSlots(dto.DoctorId);
-        if (!freeSlots.Any(x => x.From == dto.Time))
-        {
-            return BadRequest("No timeslots matched.");
-        }
-
-        var isTaken = _doctorService.IsDoctorTaken(dto.DoctorId, dto.Time);
-        if (isTaken)
-        {
-            return BadRequest("Already taken.");
-        }
-
-        var doctor = _doctorService.GetById(dto.DoctorId)!;
-        var patient = _patientService.GetByUsername(userName);
-        if (patient == null)
-        {
-            return NotFound("Patient not found.");
-        }
-*/
-        var visit = await _visitService.Create(new User(), new User(), dto.Time);
-        return Ok(visit);
-    } 
 }

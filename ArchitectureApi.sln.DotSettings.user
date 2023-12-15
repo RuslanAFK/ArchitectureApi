@@ -15,4 +15,5 @@
     &lt;TestId&gt;NUnit3x::BC68ED37-0177-49E6-8215-9290BD5B5BCD::net8.0::ArchitectureTests.VisitServiceTest.GetVisits_ReturnsNone_WhenNoVisitsInDb&lt;/TestId&gt;&#xD;
     &lt;TestId&gt;NUnit3x::BC68ED37-0177-49E6-8215-9290BD5B5BCD::net8.0::ArchitectureTests.VisitServiceTest.GetVisits_ReturnsOk_WhenUserRoleIsCorrect&lt;/TestId&gt;&#xD;
   &lt;/TestAncestor&gt;&#xD;
-&lt;/SessionState&gt;</s:String></wpf:ResourceDictionary>
+&lt;/SessionState&gt;</s:String>
+	<s:Boolean x:Key="/Default/UnloadedProject/UnloadedProjects/=bc68ed37_002D0177_002D49e6_002D8215_002D9290bd5b5bcd_0023ArchitectureTests/@EntryIndexedValue">True</s:Boolean></wpf:ResourceDictionary>

@@ -1,4 +1,6 @@
 using System.Security.Cryptography;
+using ArchitectureApi.BusinessLogic.Services.Abstract;
+using ArchitectureApi.BusinessLogic.Services.Concrete;
 using ArchitectureApi.Data;
 using ArchitectureApi.Data.Repositories.Abstract;
 using ArchitectureApi.Data.Repositories.Concrete;
@@ -36,7 +38,8 @@ internal class Program
 
         builder.Services.AddTransient<IPatientService, PatientService>();
         builder.Services.AddTransient<IDoctorService, DoctorService>();
-
+        
+        // AddAuth(builder.Services);
 
         builder.Services.AddCors(options =>
         {
@@ -49,20 +52,48 @@ internal class Program
             });
         });
 
-        builder.Services.AddSingleton(provider =>
+       
+
+        builder.Services.AddDbContext<AppDbContext>(o => 
+            o.UseSqlServer(builder.Configuration.GetConnectionString("Default")));
+
+        var app = builder.Build();
+        
+// Configure the HTTP request pipeline.
+        if (app.Environment.IsDevelopment())
+        {
+            app.UseSwagger();
+            app.UseSwaggerUI();
+        }
+
+        app.UseHttpsRedirection();
+
+        app.UseCors("AllowAll");
+
+        // app.UseAuthentication();
+        // app.UseAuthorization();
+
+        app.MapControllers();
+
+        app.Run();
+    }
+
+    private static void AddAuth(IServiceCollection services)
+    {
+        services.AddSingleton(provider =>
         {
             var rsa = RSA.Create();
             return new RsaSecurityKey(rsa);
         });
 
-        builder.Services.AddAuthentication(x =>
+        services.AddAuthentication(x =>
             {
                 x.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
             })
             .AddJwtBearer(options =>
             {
 #pragma warning disable ASP0000
-                var rsa = builder.Services.BuildServiceProvider().GetRequiredService<RsaSecurityKey>();
+                var rsa = services.BuildServiceProvider().GetRequiredService<RsaSecurityKey>();
 #pragma warning restore ASP0000
         
                 options.IncludeErrorDetails = true;
@@ -77,28 +108,5 @@ internal class Program
                     RequireAudience = false,
                 };
             });
-
-        builder.Services.AddDbContext<AppDbContext>(o => 
-            o.UseSqlServer(builder.Configuration.GetConnectionString("Default")));
-
-        var app = builder.Build();
-
-// Configure the HTTP request pipeline.
-        if (app.Environment.IsDevelopment())
-        {
-            app.UseSwagger();
-            app.UseSwaggerUI();
-        }
-
-        app.UseHttpsRedirection();
-
-        app.UseCors("AllowAll");
-
-        app.UseAuthentication();
-        app.UseAuthorization();
-
-        app.MapControllers();
-
-        app.Run();
     }
 }

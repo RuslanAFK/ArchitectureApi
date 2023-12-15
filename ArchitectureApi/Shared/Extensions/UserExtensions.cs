@@ -2,8 +2,10 @@
 
 public static class UserExtensions
 {
-    public static string AppendLastName(this string firstName, string lastName)
+    public static string Append(this string name, string? next)
     {
-        return firstName + " " + lastName;
+        if (next is null)
+            return name;
+        return name + " " + next;
     }
 }

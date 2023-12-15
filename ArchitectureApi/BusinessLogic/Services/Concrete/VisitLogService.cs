@@ -1,4 +1,5 @@
 ﻿using System.Data.Common;
+using ArchitectureApi.BusinessLogic.Services.Abstract;
 using ArchitectureApi.BusinessLogic.Services.Concrete;
 using ArchitectureApi.Dtos;
 using ArchitectureApi.Extensions;
@@ -15,7 +16,7 @@ public class VisitLogService : VisitServiceDecorator, IVisitService
         _logger = logger;
     }
 
-    public List<GetVisitDto> GetVisits(string userName)
+    public List<GetVisitDto> GetVisits(int userName)
     {
         try
         {
@@ -30,7 +31,7 @@ public class VisitLogService : VisitServiceDecorator, IVisitService
         }
     }
 
-    public List<GetTreatmentsDto> GetTreatments(string userName)
+    public List<GetTreatmentsDto> GetTreatments(int userName)
     {
         try
         {
@@ -52,7 +53,7 @@ public class VisitLogService : VisitServiceDecorator, IVisitService
             var visit = await base.Create(doctor, patient, time);
             _logger.LogInformation("Successfully created visit for: {0:f}, doctor: {1}",
                 visit.Time,
-                doctor.FirstName.AppendLastName(doctor.LastName));
+                doctor.FirstName.Append(doctor.SecondName).Append(doctor.LastName));
             return visit;
         }
         catch (ArgumentException e)

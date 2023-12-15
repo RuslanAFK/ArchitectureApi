@@ -1,4 +1,5 @@
-﻿using ArchitectureApi.Data.Repositories.Abstract;
+﻿using ArchitectureApi.BusinessLogic.Services.Abstract;
+using ArchitectureApi.Data.Repositories.Abstract;
 using ArchitectureApi.Data.Repositories.Concrete;
 using ArchitectureApi.Dtos;
 using ArchitectureApi.Enums;
@@ -18,14 +19,14 @@ public class VisitService : IVisitService
         _unitOfWork = unitOfWork;
     }
 
-    public List<GetVisitDto> GetVisits(string userName)
+    public List<GetVisitDto> GetVisits(int patientId)
     {
-        if (userName == null)
+        if (patientId == default)
             return [];
         
         var returns = _visitRepository.Get()
             .Where(visit => visit.Participants
-                .Any(u => u.FirstName + " " + u.LastName == userName && u.Role == Roles.Patient.ToString()))
+                .Any(u => u.Id == patientId && u.Role == Roles.Patient.ToString()))
             .Select(visit => new
             {
                 visit.Time,
@@ -43,15 +44,15 @@ public class VisitService : IVisitService
         });
         return dto.ToList();
     }
-    public List<GetTreatmentsDto> GetTreatments(string userName)
+    public List<GetTreatmentsDto> GetTreatments(int patientId)
     {
-        if (userName == null)
+        if (patientId == default)
             return [];
         
         var returns = _visitRepository.Get()
             .AsNoTracking()
             .Where(visit => visit.Participants
-                                .Any(u => u.FirstName + " " + u.LastName == userName &&
+                                .Any(u => u.Id == patientId &&
                                           u.Role == Roles.Patient.ToString())
                             && visit.Treatment != null)
             .Select(visit => new
