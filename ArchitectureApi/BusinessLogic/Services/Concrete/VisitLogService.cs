@@ -1,11 +1,10 @@
 ﻿using System.Data.Common;
 using ArchitectureApi.BusinessLogic.Services.Abstract;
-using ArchitectureApi.BusinessLogic.Services.Concrete;
 using ArchitectureApi.Dtos;
 using ArchitectureApi.Extensions;
 using ArchitectureApi.Models;
 
-namespace ArchitectureApi.Services.Concrete;
+namespace ArchitectureApi.BusinessLogic.Services.Concrete;
 
 public class VisitLogService : VisitServiceDecorator, IVisitService
 {
@@ -16,11 +15,11 @@ public class VisitLogService : VisitServiceDecorator, IVisitService
         _logger = logger;
     }
 
-    public List<GetVisitDto> GetVisits(int userName)
+    public async Task<List<GetVisitDto>> GetVisits(int userName)
     {
         try
         {
-            var visits = base.GetVisits(userName);
+            var visits = await base.GetVisits(userName);
             _logger.LogInformation("Visits fetched: {0}", visits.Count);
             return visits;
         }
@@ -31,11 +30,11 @@ public class VisitLogService : VisitServiceDecorator, IVisitService
         }
     }
 
-    public List<GetTreatmentsDto> GetTreatments(int userName)
+    public async Task<List<GetTreatmentsDto>> GetTreatments(int userName)
     {
         try
         {
-            var treatments = base.GetTreatments(userName);
+            var treatments = await base.GetTreatments(userName);
             _logger.LogInformation("Treatments fetched: {0}", treatments.Count);
             return treatments;
         }

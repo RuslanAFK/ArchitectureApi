@@ -1,6 +1,6 @@
 ﻿using ArchitectureApi.Models;
 
-namespace ArchitectureApi.Data.Repositories.Concrete;
+namespace ArchitectureApi.Data.Repositories.Abstract;
 
 public interface IVisitRepository
 {

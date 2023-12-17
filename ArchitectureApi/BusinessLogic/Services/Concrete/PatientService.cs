@@ -1,4 +1,5 @@
 ﻿using ArchitectureApi.BusinessLogic.Factories;
+using ArchitectureApi.BusinessLogic.Services.Abstract;
 using ArchitectureApi.Data.Repositories.Abstract;
 using ArchitectureApi.Data.Repositories.Concrete;
 using ArchitectureApi.Dtos;
@@ -24,29 +25,29 @@ public class PatientService : IPatientService
         _tokenProvider = tokenProvider;
     }
 
-    public User? GetById(int userName)
+    public Task<User?> GetById(int userName)
     {
-        return _patientRepository.Get().FirstOrDefault(x => x.Id == userName);
+        return _patientRepository.Get().FirstOrDefaultAsync(x => x.Id == userName);
     }
 
-    public PatientDto? GetPersonalInfoById(int id)
+    public async Task<PatientDto?> GetPersonalInfoById(int id)
     {
-        return _patientRepository.Get().AsNoTracking()
+        return await _patientRepository.Get().AsNoTracking()
             .Select(x => new PatientDto()
             {
                 Id = x.Id,
-                Phone = x.Phone,
-                Address = x.Address,
-                Avatar = x.PhotoFile,
-                Email = x.Email,
+                Phone = x.Phone ?? "",
+                Address = x.Address ?? "",
+                Avatar = x.PhotoFile ?? "",
+                Email = x.Email ?? "",
                 FullName = x.FirstName+" "+x.SecondName+" "+x.LastName
             })
-            .FirstOrDefault(x => x.Id == id);
+            .FirstOrDefaultAsync(x => x.Id == id);
     }
 
-    public void EditPersonalInfoById(int id, EditPatientDto data)
+    public async Task EditPersonalInfoById(int id, EditPatientDto data)
     {
-        var patient = _patientRepository.Get().First(x => x.Id == id);
+        var patient = await _patientRepository.Get().FirstAsync(x => x.Id == id);
 
         patient.FirstName = data.FirstName ?? patient.FirstName;
         patient.SecondName = data.SecondName ?? patient.SecondName;
@@ -56,10 +57,10 @@ public class PatientService : IPatientService
         patient.Address = data.Address ?? patient.Address;
         patient.Phone = data.Phone ?? patient.Phone;
         
-        _unit.SaveChanges();
+        await _unit.SaveChanges();
     }
 
-    public void Signup(SignupDto data)
+    public async Task Signup(SignupDto data)
     {
         var patient = new UserBuilder(data.FirstName, data.LastName)
             .WithSecondName(data.SecondName)
@@ -68,13 +69,13 @@ public class PatientService : IPatientService
             .Build();
         
         _patientRepository.Create(patient);
-        _unit.SaveChanges();
+        await _unit.SaveChanges();
     }
 
-    public string? Signin(SigninDto user)
+    public async Task<string?> Signin(SigninDto user)
     {
-        var found = _patientRepository.Get().AsNoTracking()
-            .FirstOrDefault(x => user.Email == x.Email && x.Password == user.Password);
+        var found = await _patientRepository.Get().AsNoTracking()
+            .FirstOrDefaultAsync(x => user.Email == x.Email && x.Password == user.Password);
         return found is null ? null : _tokenProvider.GenerateToken(found.Id, found.Role);
     }
 }

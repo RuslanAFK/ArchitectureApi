@@ -1,4 +1,5 @@
 ﻿using ArchitectureApi.BusinessLogic.Providers.Abstract;
+using ArchitectureApi.Data.Repositories.Abstract;
 using ArchitectureApi.Data.Repositories.Concrete;
 using ArchitectureApi.Dtos;
 using ArchitectureApi.Enums;

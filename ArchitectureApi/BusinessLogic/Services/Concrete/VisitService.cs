@@ -1,12 +1,11 @@
 ﻿using ArchitectureApi.BusinessLogic.Services.Abstract;
 using ArchitectureApi.Data.Repositories.Abstract;
-using ArchitectureApi.Data.Repositories.Concrete;
 using ArchitectureApi.Dtos;
 using ArchitectureApi.Enums;
 using ArchitectureApi.Models;
 using Microsoft.EntityFrameworkCore;
 
-namespace ArchitectureApi.Services;
+namespace ArchitectureApi.BusinessLogic.Services.Concrete;
 
 public class VisitService : IVisitService
 {
@@ -19,7 +18,7 @@ public class VisitService : IVisitService
         _unitOfWork = unitOfWork;
     }
 
-    public List<GetVisitDto> GetVisits(int patientId)
+    public async Task<List<GetVisitDto>> GetVisits(int patientId)
     {
         if (patientId == default)
             return new List<GetVisitDto>();
@@ -42,9 +41,9 @@ public class VisitService : IVisitService
         {
             Time = x.Time, Doctor = x.Doctor != null ? x.Doctor.Name : string.Empty
         });
-        return dto.ToList();
+        return await dto.ToListAsync();
     }
-    public List<GetTreatmentsDto> GetTreatments(int patientId)
+    public async Task<List<GetTreatmentsDto>> GetTreatments(int patientId)
     {
         if (patientId == default)
             return new List<GetTreatmentsDto>();
@@ -70,7 +69,7 @@ public class VisitService : IVisitService
         {
             Treatment = x.Treatment!, Doctor = x.Doctor != null ? x.Doctor.Name : string.Empty
         });
-        return dto.ToList();
+        return await dto.ToListAsync();
     }
 
     public async Task<Visit> Create(User doctor, User patient, DateTime time, string? notes = null)

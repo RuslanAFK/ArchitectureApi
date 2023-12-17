@@ -1,7 +1,6 @@
 ﻿using ArchitectureApi.BusinessLogic.Services.Abstract;
 using ArchitectureApi.Dtos;
 using ArchitectureApi.Models;
-using ArchitectureApi.Services;
 
 namespace ArchitectureApi.BusinessLogic.Services.Concrete;
 
@@ -14,14 +13,14 @@ public abstract class VisitServiceDecorator : IVisitService
         Decoratee = decoratee;
     }
 
-    public List<GetVisitDto> GetVisits(int userName)
+    public async Task<List<GetVisitDto>> GetVisits(int userName)
     {
-        return Decoratee.GetVisits(userName);
+        return await Decoratee.GetVisits(userName);
     }
 
-    public List<GetTreatmentsDto> GetTreatments(int userName)
+    public async Task<List<GetTreatmentsDto>> GetTreatments(int userName)
     {
-        return Decoratee.GetTreatments(userName);
+        return await Decoratee.GetTreatments(userName);
     }
 
     public virtual async Task<Visit> Create(User doctor, User patient, DateTime time, string? notes = null)

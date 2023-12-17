@@ -1,4 +1,5 @@
-﻿using ArchitectureApi.Services;
+﻿using ArchitectureApi.BusinessLogic.Services.Abstract;
+using ArchitectureApi.Services;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ArchitectureApi.Controllers;

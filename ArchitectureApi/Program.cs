@@ -6,6 +6,7 @@ using ArchitectureApi.BusinessLogic.Services.Concrete;
 using ArchitectureApi.Data;
 using ArchitectureApi.Data.Repositories.Abstract;
 using ArchitectureApi.Data.Repositories.Concrete;
+using ArchitectureApi.Middleware;
 using ArchitectureApi.Models;
 using ArchitectureApi.Services;
 using ArchitectureApi.Services.Concrete;
@@ -77,8 +78,10 @@ internal class Program
 
         app.UseCors("AllowAll");
 
-        // app.UseAuthentication();
-        // app.UseAuthorization();
+        app.UseAuthentication();
+        app.UseAuthorization();
+
+        app.UseMiddleware<ExceptionHandlingMiddleware>();
 
         app.MapControllers();
 

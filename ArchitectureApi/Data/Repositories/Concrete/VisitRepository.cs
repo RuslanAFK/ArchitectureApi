@@ -1,4 +1,5 @@
-﻿using ArchitectureApi.Models;
+﻿using ArchitectureApi.Data.Repositories.Abstract;
+using ArchitectureApi.Models;
 
 namespace ArchitectureApi.Data.Repositories.Concrete;
 

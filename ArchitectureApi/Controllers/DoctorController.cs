@@ -1,7 +1,9 @@
-﻿using ArchitectureApi.Dtos;
+﻿using ArchitectureApi.BusinessLogic.Services.Abstract;
+using ArchitectureApi.Dtos;
 using ArchitectureApi.Extensions;
 using ArchitectureApi.Services;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace ArchitectureApi.Controllers;
 
@@ -20,9 +22,10 @@ public class DoctorController : Controller
     [ActionName("doctor/info")]
     public async Task<IActionResult> GetDoctor([FromRoute] int id)
     {
-        var doctor = _doctorService.GetDoctorInfoById(id);
+        var doctor = await _doctorService.GetDoctorInfoById(id);
         if (doctor is null)
-            return NotFound();
+            return BadRequest($"Doctor with id {id} not found.");
+        
         return Ok(doctor);
     }
     
@@ -30,8 +33,8 @@ public class DoctorController : Controller
     [ActionName("doctor/list")]
     public async Task<IActionResult> GetDoctors([FromQuery] FilterDto dto)
     {
-        var doctors = _doctorService.GetAllDoctorsInfo()
-            .Filter(dto.Filter).Paginate(dto.PageSize, dto.Page);
+        var doctors = await _doctorService.GetAllDoctorsInfo()
+            .Filter(dto.Filter).Paginate(dto.PageSize, dto.Page).ToListAsync();
         
         return Ok(doctors);
     }

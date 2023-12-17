@@ -1,10 +1,11 @@
-﻿using ArchitectureApi.Data.Repositories.Concrete;
+﻿using ArchitectureApi.BusinessLogic.Services.Abstract;
+using ArchitectureApi.Data.Repositories.Abstract;
 using ArchitectureApi.Dtos;
 using ArchitectureApi.Enums;
 using ArchitectureApi.Models;
 using Microsoft.EntityFrameworkCore;
 
-namespace ArchitectureApi.Services;
+namespace ArchitectureApi.BusinessLogic.Services.Concrete;
 
 public class DoctorService : IDoctorService
 {
@@ -25,29 +26,29 @@ public class DoctorService : IDoctorService
             .SelectMany(x => x.FreeTimeSlots);
     }
 
-    public User? GetById(int userId)
+    public Task<User?> GetById(int userId)
     {
-        return _doctorRepository.Get().FirstOrDefault(d => d.Id == userId);
+        return _doctorRepository.Get().FirstOrDefaultAsync(d => d.Id == userId);
     }
 
-    public DoctorDto? GetDoctorInfoById(int userId)
+    public async Task<DoctorDto?> GetDoctorInfoById(int userId)
     {
-        return _doctorRepository.Get().AsNoTracking()
+        return await _doctorRepository.Get().AsNoTracking()
             .Select(x => new DoctorDto()
             {
                 Id = x.Id,
                 FullName = x.FirstName + " " + x.SecondName + " " + x.LastName,
                 DoctorType = x.DoctorType
             })
-            .FirstOrDefault(d => d.Id == userId);
+            .FirstOrDefaultAsync(d => d.Id == userId);
     }
 
-    public bool IsDoctorTaken(int doctorId, DateTime time)
+    public async Task<bool> IsDoctorTaken(int doctorId, DateTime time)
     {
-        return _visitRepository.Get()
+        return await _visitRepository.Get()
             .AsNoTracking()
-            .Any(visit => visit.Participants.Any(u => u.Id == doctorId && u.Role == Roles.Doctor.ToString()) &&
-                          visit.Time == time);
+            .AnyAsync(visit => visit.Participants.Any(u => u.Id == doctorId && u.Role == Roles.Doctor.ToString()) &&
+                               visit.Time == time);
     }
 
     public IQueryable<DoctorDto> GetAllDoctorsInfo()

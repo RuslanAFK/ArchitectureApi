@@ -1,8 +1,6 @@
 ﻿using ArchitectureApi.BusinessLogic.Providers.Abstract;
 using ArchitectureApi.BusinessLogic.Services.Abstract;
 using ArchitectureApi.Dtos;
-using ArchitectureApi.Enums;
-using ArchitectureApi.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -32,12 +30,10 @@ public class VisitController : Controller
     public async Task<IActionResult> GetVisits()
     {
         var authDto = _authProvider.GetCurrent(HttpContext);
-        if (authDto is null || authDto.Role != Roles.Patient.ToString())
-        {
-            return Unauthorized();
-        }
+        if (authDto is null)
+            return BadRequest("Error getting user from token.");
 
-        var visits = _visitService.GetVisits(authDto.Id);
+        var visits = await _visitService.GetVisits(authDto.Id);
         return Ok(visits);
     }
     
@@ -46,12 +42,10 @@ public class VisitController : Controller
     public async Task<IActionResult> GetTreatments()
     {
         var authDto = _authProvider.GetCurrent(HttpContext);
-        if (authDto is null || authDto.Role != Roles.Patient.ToString())
-        {
-            return Unauthorized();
-        }
+        if (authDto is null)
+            return BadRequest("Error getting user from token.");
 
-        var visits = _visitService.GetTreatments(authDto.Id);
+        var visits = await _visitService.GetTreatments(authDto.Id);
         return Ok(visits);
     }
     
@@ -63,24 +57,24 @@ public class VisitController : Controller
         var freeSlots = _doctorService.GetDoctorFreeSlots(dto.DoctorId);
         if (!freeSlots.Any(x => x.From == dto.Time))
         {
-            return BadRequest("No timeslots matched.");
+            return BadRequest("No timeslots at given time.");
         }
 
-        var isTaken = _doctorService.IsDoctorTaken(dto.DoctorId, dto.Time);
+        var isTaken = await _doctorService.IsDoctorTaken(dto.DoctorId, dto.Time);
         if (isTaken)
         {
-            return BadRequest("Already taken.");
+            return BadRequest("Timeslot is already taken.");
         }
 
-        var doctor = _doctorService.GetById(dto.DoctorId)!;
-        var patient = _patientService.GetById(authDto.Id);
+        var doctor = await _doctorService.GetById(dto.DoctorId)!;
+        var patient = await _patientService.GetById(authDto.Id);
         if (patient == null)
-        {
-            return NotFound("Patient not found.");
-        }
+            return BadRequest("Patient not found.");
+        if (doctor == null)
+            return BadRequest("Doctor not found.");
         
-        var visit = await _visitService.Create(doctor, patient, dto.Time, dto.Notes);
-        return Ok(visit);
+        await _visitService.Create(doctor!, patient, dto.Time, dto.Notes);
+        return Ok();
     } 
 
 }

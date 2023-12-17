@@ -1,6 +1,4 @@
-﻿using ArchitectureApi.Models;
-
-namespace ArchitectureApi.Services;
+﻿namespace ArchitectureApi.BusinessLogic.Services.Abstract;
 
 public interface IHospitalService
 {
