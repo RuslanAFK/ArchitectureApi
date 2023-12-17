@@ -12,6 +12,7 @@ using ArchitectureApi.Services.Concrete;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
+using Services.Services;
 
 namespace ArchitectureApi;
 
@@ -36,17 +37,17 @@ internal class Program
         builder.Services.AddTransient<IUnitOfWork, UnitOfWork>();
 
         builder.Services.AddScoped<IVisitService, VisitService>();
-        builder.Services.Decorate<IVisitService, VisitLogService>();
 
         builder.Services.AddScoped<IHospitalService>(HospitalService.Self);
 
         builder.Services.AddTransient<IPatientService, PatientService>();
         builder.Services.AddTransient<IDoctorService, DoctorService>();
 
-        builder.Services.AddTransient<IAuthProvider, FirstPatientProvider>();
+        builder.Services.AddTransient<IAuthProvider, AuthProvider>();
+        builder.Services.AddTransient<ITokenProvider, TokenProvider>();
         
-        // AddAuth(builder.Services);
-
+        AddAuth(builder);
+        
         builder.Services.AddCors(options =>
         {
             options.AddPolicy("AllowAll", p =>
@@ -54,7 +55,7 @@ internal class Program
                 p.AllowAnyMethod()
                     .AllowAnyHeader()
                     .AllowCredentials()
-                    .WithOrigins("http://localhost:3000", "https://appname.azurestaticapps.net");
+                    .WithOrigins("http://localhost:3000");
             });
         });
 
@@ -84,22 +85,23 @@ internal class Program
         app.Run();
     }
 
-    private static void AddAuth(IServiceCollection services)
+    private static void AddAuth(WebApplicationBuilder builder)
     {
-        services.AddSingleton(provider =>
+        builder.Services.AddSingleton(provider =>
         {
             var rsa = RSA.Create();
+            rsa.ImportRSAPublicKey(Convert.FromBase64String(builder.Configuration["Jwt:PublicKey"]!), out _);
             return new RsaSecurityKey(rsa);
         });
 
-        services.AddAuthentication(x =>
+        builder.Services.AddAuthentication(x =>
             {
                 x.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
             })
             .AddJwtBearer(options =>
             {
 #pragma warning disable ASP0000
-                var rsa = services.BuildServiceProvider().GetRequiredService<RsaSecurityKey>();
+                var rsa = builder.Services.BuildServiceProvider().GetRequiredService<RsaSecurityKey>();
 #pragma warning restore ASP0000
         
                 options.IncludeErrorDetails = true;
@@ -107,11 +109,13 @@ internal class Program
                 {
                     IssuerSigningKey = rsa,
                     RequireSignedTokens = false,
-                    RequireExpirationTime = false,
+                    RequireExpirationTime = true,
                     ValidateLifetime = false,
                     ValidateAudience = false,
-                    ValidateIssuer = false, 
-                    RequireAudience = false,
+                    ValidateIssuer = false,
+                    ValidateActor = false,
+                    ValidateTokenReplay = false,
+                    ValidateIssuerSigningKey = false
                 };
             });
     }

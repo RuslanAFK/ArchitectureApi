@@ -13,10 +13,9 @@ public class User
     public string? Email { get; set; }
     public string? Address { get; set; }
     public string? Phone { get; set; }
+    public string? Password { get; set; }
 
     public string Role { get; set; }
-    
-    public ICollection<Visit> Visits { get; set; }
     
     // Only for doctor role
     public string? DoctorType { get; set; }

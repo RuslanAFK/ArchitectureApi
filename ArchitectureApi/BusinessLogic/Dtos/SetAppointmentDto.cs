@@ -4,4 +4,5 @@ public class SetAppointmentDto
 {
     public DateTime Time { get; set; }
     public int DoctorId { get; set; }
+    public string Notes { get; set; }
 }

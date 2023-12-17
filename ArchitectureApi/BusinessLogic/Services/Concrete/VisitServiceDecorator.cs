@@ -24,8 +24,8 @@ public abstract class VisitServiceDecorator : IVisitService
         return Decoratee.GetTreatments(userName);
     }
 
-    public async Task<Visit> Create(User doctor, User patient, DateTime time)
+    public virtual async Task<Visit> Create(User doctor, User patient, DateTime time, string? notes = null)
     {
-       return await Decoratee.Create(doctor, patient, time);
+       return await Decoratee.Create(doctor, patient, time, notes);
     }
 }

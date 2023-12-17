@@ -7,5 +7,5 @@ public interface IVisitService
 {
     List<GetVisitDto> GetVisits(int patientId);
     List<GetTreatmentsDto> GetTreatments(int patientId);
-    Task<Visit> Create(User doctor, User patient, DateTime time);
+    Task<Visit> Create(User doctor, User patient, DateTime time, string? notes = null);
 }

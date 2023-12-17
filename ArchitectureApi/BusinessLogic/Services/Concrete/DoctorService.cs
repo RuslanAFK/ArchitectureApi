@@ -46,7 +46,7 @@ public class DoctorService : IDoctorService
     {
         return _visitRepository.Get()
             .AsNoTracking()
-            .Any(visit => visit.Participants.Any(u => u.Id == doctorId && u.Role == Roles.Patient.ToString()) &&
+            .Any(visit => visit.Participants.Any(u => u.Id == doctorId && u.Role == Roles.Doctor.ToString()) &&
                           visit.Time == time);
     }
 

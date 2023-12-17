@@ -8,6 +8,6 @@ public static class FilterExtensions
     {
         if (filter == null)
             return doctors;
-        return doctors.Where(x => x.FullName.Contains(filter));
+        return doctors.Where(x => x.FullName.Contains(filter) || x.DoctorType.Contains(filter));
     }
 }

@@ -1,4 +1,5 @@
 ﻿<wpf:ResourceDictionary xml:space="preserve" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:s="clr-namespace:System;assembly=mscorlib" xmlns:ss="urn:shemas-jetbrains-com:settings-storage-xaml" xmlns:wpf="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+	<s:String x:Key="/Default/CodeInspection/ExcludedFiles/FilesAndFoldersToSkip2/=16F5ECC1_002DE3DD_002D469C_002DAF1C_002D3B6AB0D55719_002Fd_003ABusinessLogic_002Fd_003AProviders_002Fd_003AConcrete_002Ff_003ATokenProvider_002Ecs/@EntryIndexedValue">ExplicitlyExcluded</s:String>
 	<s:String x:Key="/Default/Environment/AssemblyExplorer/XmlDocument/@EntryValue">&lt;AssemblyExplorer&gt;&#xD;
   &lt;Assembly Path="C:\Users\Public\Documents\programs\uni\ArchiterctureApi\ArchitectureApi\bin\Debug\net7.0\Humanizer.dll" /&gt;&#xD;
 &lt;/AssemblyExplorer&gt;</s:String>

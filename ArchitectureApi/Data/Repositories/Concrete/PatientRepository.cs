@@ -10,6 +10,6 @@ public class PatientRepository : BaseRepository<User>, IPatientRepository
     }
     public IQueryable<User> Get()
     {
-        return base.Get().Where(x => x.Role == Roles.Doctor.ToString());
+        return base.Get().Where(x => x.Role == Roles.Patient.ToString());
     }
 }

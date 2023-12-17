@@ -16,6 +16,10 @@ public class AppDbContext : DbContext
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         SeedDb(modelBuilder);
+
+        modelBuilder.Entity<User>()
+            .HasMany<Visit>()
+            .WithMany(x => x.Participants);
     }
 
     private void SeedDb(ModelBuilder modelBuilder)
@@ -26,6 +30,7 @@ public class AppDbContext : DbContext
                 new()
                 {
                     Role = "Patient", FirstName = "Руслан", SecondName = "Пундак", LastName = "Ігорович", Id = 1,
+                    Password = "RuslanPass",
                     Address = "Львів, вул. Жовківська, 39", Phone = "095-655-65-89", Email = "ruslan_p@gmail.com",
                     PhotoFile =
                         "https://img.freepik.com/free-photo/smiley-man-relaxing-outdoors_23-2148739334.jpg?w=360&t=st=1702807538~exp=1702808138~hmac=e4d0e9393c54c1ee1bd095ec5661699ca013cdb7205b4753ec46e0ecea406956"
@@ -121,6 +126,7 @@ public class AppDbContext : DbContext
                 {
                     Role = "Patient", FirstName = "Вікторія", SecondName = "Анашян", LastName = "Орестівна", Id = 10,
                     Address = "Львів, вул. Жовківська, 39", Phone = "095-655-65-89", Email = "vika@gmail.com",
+                    Password = "VictoriaPass",
                     PhotoFile =
                         "https://img.freepik.com/free-photo/smiley-man-relaxing-outdoors_23-2148739334.jpg?w=360&t=st=1702807538~exp=1702808138~hmac=e4d0e9393c54c1ee1bd095ec5661699ca013cdb7205b4753ec46e0ecea406956"
                 }

@@ -73,7 +73,7 @@ public class VisitService : IVisitService
         return dto.ToList();
     }
 
-    public async Task<Visit> Create(User doctor, User patient, DateTime time)
+    public async Task<Visit> Create(User doctor, User patient, DateTime time, string? notes = null)
     {
         if (doctor is null || patient is null)
             throw new ArgumentException("Users cannot be null.");
@@ -88,7 +88,8 @@ public class VisitService : IVisitService
             {
                 doctor, patient
             },
-            Time = time
+            Time = time,
+            Notes = notes
         };
         _visitRepository.Create(visit);
         await _unitOfWork.SaveChanges();

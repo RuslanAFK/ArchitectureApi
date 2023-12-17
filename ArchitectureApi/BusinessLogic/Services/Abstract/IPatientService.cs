@@ -9,4 +9,5 @@ public interface IPatientService
     PatientDto? GetPersonalInfoById(int userName);
     void EditPersonalInfoById(int id, EditPatientDto dto);
     void Signup(SignupDto user);
+    string? Signin(SigninDto user);
 }

@@ -46,11 +46,11 @@ public class VisitLogService : VisitServiceDecorator, IVisitService
         }
     }
 
-    public async Task<Visit> Create(User doctor, User patient, DateTime time)
+    public override async Task<Visit> Create(User doctor, User patient, DateTime time, string? notes = null)
     {
         try
         {
-            var visit = await base.Create(doctor, patient, time);
+            var visit = await base.Create(doctor, patient, time, notes);
             _logger.LogInformation("Successfully created visit for: {0:f}, doctor: {1}",
                 visit.Time,
                 doctor.FirstName.Append(doctor.SecondName).Append(doctor.LastName));

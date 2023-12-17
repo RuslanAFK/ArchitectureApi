@@ -3,12 +3,14 @@ using ArchitectureApi.BusinessLogic.Services.Abstract;
 using ArchitectureApi.Dtos;
 using ArchitectureApi.Enums;
 using ArchitectureApi.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ArchitectureApi.Controllers;
 
 [ApiController]
 [Route("api/[action]")]
+[Authorize(Roles = "Patient")]
 public class VisitController : Controller
 {
     private readonly IVisitService _visitService;
@@ -40,7 +42,7 @@ public class VisitController : Controller
     }
     
     [HttpGet]
-    [Route("patient/treatments")]
+    [ActionName("patient/treatments")]
     public async Task<IActionResult> GetTreatments()
     {
         var authDto = _authProvider.GetCurrent(HttpContext);
@@ -54,10 +56,10 @@ public class VisitController : Controller
     }
     
     [HttpPost]
-    [Route("patient/set-appointment")]
+    [ActionName("patient/set-appointment")]
     public async Task<IActionResult> SetAppointment(SetAppointmentDto dto)
     {
-        var authDto = _authProvider.GetCurrent(HttpContext);
+        var authDto = _authProvider.GetCurrent(HttpContext)!;
         var freeSlots = _doctorService.GetDoctorFreeSlots(dto.DoctorId);
         if (!freeSlots.Any(x => x.From == dto.Time))
         {
@@ -77,7 +79,7 @@ public class VisitController : Controller
             return NotFound("Patient not found.");
         }
         
-        var visit = await _visitService.Create(doctor, patient, dto.Time);
+        var visit = await _visitService.Create(doctor, patient, dto.Time, dto.Notes);
         return Ok(visit);
     } 
 

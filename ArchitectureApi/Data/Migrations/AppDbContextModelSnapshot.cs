@@ -94,6 +94,9 @@ namespace ArchitectureApi.Data.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("Password")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("Phone")
                         .HasColumnType("nvarchar(max)");
 
@@ -119,6 +122,7 @@ namespace ArchitectureApi.Data.Migrations
                             Email = "ruslan_p@gmail.com",
                             FirstName = "Руслан",
                             LastName = "Ігорович",
+                            Password = "RuslanPass",
                             Phone = "095-655-65-89",
                             PhotoFile = "https://img.freepik.com/free-photo/smiley-man-relaxing-outdoors_23-2148739334.jpg?w=360&t=st=1702807538~exp=1702808138~hmac=e4d0e9393c54c1ee1bd095ec5661699ca013cdb7205b4753ec46e0ecea406956",
                             Role = "Patient",
@@ -261,6 +265,7 @@ namespace ArchitectureApi.Data.Migrations
                             Email = "vika@gmail.com",
                             FirstName = "Вікторія",
                             LastName = "Орестівна",
+                            Password = "VictoriaPass",
                             Phone = "095-655-65-89",
                             PhotoFile = "https://img.freepik.com/free-photo/smiley-man-relaxing-outdoors_23-2148739334.jpg?w=360&t=st=1702807538~exp=1702808138~hmac=e4d0e9393c54c1ee1bd095ec5661699ca013cdb7205b4753ec46e0ecea406956",
                             Role = "Patient",
@@ -275,6 +280,9 @@ namespace ArchitectureApi.Data.Migrations
                         .HasColumnType("int");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Notes")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("Time")
                         .HasColumnType("datetime2");
@@ -292,12 +300,12 @@ namespace ArchitectureApi.Data.Migrations
                     b.Property<int>("ParticipantsId")
                         .HasColumnType("int");
 
-                    b.Property<int>("VisitsId")
+                    b.Property<int>("VisitId")
                         .HasColumnType("int");
 
-                    b.HasKey("ParticipantsId", "VisitsId");
+                    b.HasKey("ParticipantsId", "VisitId");
 
-                    b.HasIndex("VisitsId");
+                    b.HasIndex("VisitId");
 
                     b.ToTable("UserVisit");
                 });
@@ -323,7 +331,7 @@ namespace ArchitectureApi.Data.Migrations
 
                     b.HasOne("ArchitectureApi.Models.Visit", null)
                         .WithMany()
-                        .HasForeignKey("VisitsId")
+                        .HasForeignKey("VisitId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });

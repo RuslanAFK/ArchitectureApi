@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace ArchitectureApi.Controllers;
 
 [ApiController]
+[Authorize(Roles = "Patient")]
 [Route("api/[action]")]
 public class PatientController : Controller
 {
@@ -21,7 +22,7 @@ public class PatientController : Controller
         _authProvider = authProvider;
     }
 
-    [HttpGet]
+    [HttpPost]
     [ActionName("patient/signup")]
     [AllowAnonymous]
     public async Task<IActionResult> CreateAccount(SignupDto data)
@@ -30,33 +31,34 @@ public class PatientController : Controller
         return Ok();
     }
     
-    [HttpGet]
-    [ActionName("patient/cabinet")]
+    [HttpPost]
+    [ActionName("patient/signin")]
     [AllowAnonymous]
-    public async Task<IActionResult> PersonalCabinet(SignupDto data)
+    public async Task<IActionResult> SignIn(SigninDto data)
     {
-        var authDto = _authProvider.GetCurrent(HttpContext);
-        if (authDto is null || authDto.Role != Roles.Patient.ToString())
+        var token = _patientService.Signin(data);
+        return Ok(new
         {
-            return Unauthorized();
-        }
-
-        var patient = _patientService.GetPersonalInfoById(authDto.Id);
-        return Ok(patient);
+            Token = token
+        });
     }
     
     [HttpGet]
+    [ActionName("patient/cabinet")]
+    public async Task<IActionResult> PersonalCabinet()
+    {
+        var authDto = _authProvider.GetCurrent(HttpContext);
+        var patient = _patientService.GetPersonalInfoById(authDto!.Id);
+        return Ok(patient);
+    }
+    
+    [HttpPost]
     [ActionName("patient/edit-cabinet")]
     [AllowAnonymous]
     public async Task<IActionResult> EditCabinet(EditPatientDto data)
     {
         var authDto = _authProvider.GetCurrent(HttpContext);
-        if (authDto is null || authDto.Role != Roles.Patient.ToString())
-        {
-            return Unauthorized();
-        }
-        
-        _patientService.EditPersonalInfoById(authDto.Id, data);
+        _patientService.EditPersonalInfoById(authDto!.Id, data);
         return Ok();
     }
 }
