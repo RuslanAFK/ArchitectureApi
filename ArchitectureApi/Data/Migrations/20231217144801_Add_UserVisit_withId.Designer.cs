@@ -4,6 +4,7 @@ using ArchitectureApi.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ArchitectureApi.Data.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20231217144801_Add_UserVisit_withId")]
+    partial class Add_UserVisit_withId
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -294,32 +297,6 @@ namespace ArchitectureApi.Data.Migrations
                     b.HasIndex("VisitId");
 
                     b.ToTable("UserVisit");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 3,
-                            UserId = 1,
-                            VisitId = 2
-                        },
-                        new
-                        {
-                            Id = 4,
-                            UserId = 10,
-                            VisitId = 3
-                        },
-                        new
-                        {
-                            Id = 5,
-                            UserId = 4,
-                            VisitId = 2
-                        },
-                        new
-                        {
-                            Id = 6,
-                            UserId = 6,
-                            VisitId = 3
-                        });
                 });
 
             modelBuilder.Entity("ArchitectureApi.Models.Visit", b =>
@@ -342,22 +319,6 @@ namespace ArchitectureApi.Data.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Visits");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 2,
-                            Notes = "Болить горло",
-                            Time = new DateTime(2023, 12, 28, 12, 0, 0, 0, DateTimeKind.Unspecified),
-                            Treatment = "Прополоскати горло"
-                        },
-                        new
-                        {
-                            Id = 3,
-                            Notes = "Болить живіт",
-                            Time = new DateTime(2023, 12, 28, 14, 0, 0, 0, DateTimeKind.Unspecified),
-                            Treatment = "Випити ліки від болю в животі"
-                        });
                 });
 
             modelBuilder.Entity("ArchitectureApi.Models.TimeSlot", b =>

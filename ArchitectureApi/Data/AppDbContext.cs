@@ -1,5 +1,6 @@
 ﻿using ArchitectureApi.Models;
 using Microsoft.EntityFrameworkCore;
+using DateTime = System.DateTime;
 
 namespace ArchitectureApi.Data;
 
@@ -16,12 +17,17 @@ public class AppDbContext : DbContext
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         SeedDb(modelBuilder);
-
-        modelBuilder.Entity<User>()
-            .HasMany<Visit>()
-            .WithMany(x => x.Participants);
+        InitUserVisit(modelBuilder);
     }
 
+    private void InitUserVisit(ModelBuilder modelBuilder)
+    {
+        modelBuilder.Entity<User>()
+            .HasMany<Visit>()
+            .WithMany(x => x.Participants)
+            .UsingEntity<UserVisit>();
+    }
+    
     private void SeedDb(ModelBuilder modelBuilder)
     {
         modelBuilder.Entity<User>()
@@ -149,6 +155,42 @@ public class AppDbContext : DbContext
                 {
                     Id = 3,
                     DoctorId = 4, From = new DateTime(2024, 1, 1, 8, 0, 0), To = new DateTime(2024, 1, 1, 18, 0, 0)
+                }
+            });
+
+        modelBuilder.Entity<Visit>()
+            .HasData(new List<Visit>
+            {
+                new()
+                {
+                    Time = new DateTime(2023, 12, 28, 12, 00, 00),
+                    Notes = "Болить горло", Treatment = "Прополоскати горло", Id = 2
+                },
+                new()
+                {
+                    Time = new DateTime(2023, 12, 28, 14, 00, 00),
+                    Notes = "Болить живіт", Treatment = "Випити ліки від болю в животі", Id = 3
+                }
+            });
+
+        modelBuilder.Entity<UserVisit>()
+            .HasData(new List<UserVisit>
+            {
+                new()
+                {
+                    VisitId = 2, UserId = 1, Id = 3
+                },
+                new()
+                {
+                    VisitId = 3, UserId = 10, Id = 4
+                },
+                new()
+                {
+                    VisitId = 2, UserId = 4, Id = 5
+                },
+                new()
+                {
+                    VisitId = 3, UserId = 6, Id = 6
                 }
             });
     }
