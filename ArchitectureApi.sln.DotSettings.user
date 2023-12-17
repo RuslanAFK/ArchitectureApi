@@ -3,6 +3,7 @@
   &lt;Assembly Path="C:\Users\Public\Documents\programs\uni\ArchiterctureApi\ArchitectureApi\bin\Debug\net7.0\Humanizer.dll" /&gt;&#xD;
 &lt;/AssemblyExplorer&gt;</s:String>
 	<s:String x:Key="/Default/Environment/Hierarchy/Build/BuildTool/CustomBuildToolPath/@EntryValue">C:\Program Files\JetBrains\JetBrains Rider 2023.3\tools\MSBuild\Current\Bin\MSBuild.exe</s:String>
+	<s:String x:Key="/Default/Environment/Hierarchy/Build/BuildTool/DotNetCliExePath/@EntryValue">C:\Program Files\dotnet\dotnet.exe</s:String>
 	<s:Int64 x:Key="/Default/Environment/Hierarchy/Build/BuildTool/MsbuildVersion/@EntryValue">1114112</s:Int64>
 	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=0dfdf457_002D5fb6_002D42fc_002D9d2e_002Df9173789bbdc/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" IsActive="True" Name="GetVisits_Returns1_WhenOneVisitIsThere" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
   &lt;TestAncestor&gt;&#xD;
@@ -16,4 +17,6 @@
     &lt;TestId&gt;NUnit3x::BC68ED37-0177-49E6-8215-9290BD5B5BCD::net8.0::ArchitectureTests.VisitServiceTest.GetVisits_ReturnsOk_WhenUserRoleIsCorrect&lt;/TestId&gt;&#xD;
   &lt;/TestAncestor&gt;&#xD;
 &lt;/SessionState&gt;</s:String>
-	<s:Boolean x:Key="/Default/UnloadedProject/UnloadedProjects/=bc68ed37_002D0177_002D49e6_002D8215_002D9290bd5b5bcd_0023ArchitectureTests/@EntryIndexedValue">True</s:Boolean></wpf:ResourceDictionary>
+	
+	<s:Boolean x:Key="/Default/UnloadedProject/UnloadedProjects/=bc68ed37_002D0177_002D49e6_002D8215_002D9290bd5b5bcd_0023ArchitectureTests/@EntryIndexedValue">True</s:Boolean>
+	</wpf:ResourceDictionary>

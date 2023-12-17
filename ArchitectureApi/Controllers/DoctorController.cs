@@ -21,16 +21,18 @@ public class DoctorController : Controller
     public async Task<IActionResult> GetDoctor([FromRoute] int id)
     {
         var doctor = _doctorService.GetDoctorInfoById(id);
+        if (doctor is null)
+            return NotFound();
         return Ok(doctor);
     }
     
     [HttpGet]
     [ActionName("doctor/list")]
-    public async Task<IActionResult> GetDoctors(FilterDto dto)
+    public async Task<IActionResult> GetDoctors([FromQuery] FilterDto dto)
     {
         var doctors = _doctorService.GetAllDoctorsInfo()
             .Filter(dto.Filter).Paginate(dto.PageSize, dto.Page);
-
+        
         return Ok(doctors);
     }
 }

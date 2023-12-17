@@ -1,4 +1,6 @@
 using System.Security.Cryptography;
+using ArchitectureApi.BusinessLogic.Providers.Abstract;
+using ArchitectureApi.BusinessLogic.Providers.Concrete;
 using ArchitectureApi.BusinessLogic.Services.Abstract;
 using ArchitectureApi.BusinessLogic.Services.Concrete;
 using ArchitectureApi.Data;
@@ -10,6 +12,8 @@ using ArchitectureApi.Services.Concrete;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
+
+namespace ArchitectureApi;
 
 internal class Program
 {
@@ -38,6 +42,8 @@ internal class Program
 
         builder.Services.AddTransient<IPatientService, PatientService>();
         builder.Services.AddTransient<IDoctorService, DoctorService>();
+
+        builder.Services.AddTransient<IAuthProvider, FirstPatientProvider>();
         
         // AddAuth(builder.Services);
 

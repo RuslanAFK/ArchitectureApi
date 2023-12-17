@@ -22,7 +22,7 @@ public class VisitService : IVisitService
     public List<GetVisitDto> GetVisits(int patientId)
     {
         if (patientId == default)
-            return [];
+            return new List<GetVisitDto>();
         
         var returns = _visitRepository.Get()
             .Where(visit => visit.Participants
@@ -47,7 +47,7 @@ public class VisitService : IVisitService
     public List<GetTreatmentsDto> GetTreatments(int patientId)
     {
         if (patientId == default)
-            return [];
+            return new List<GetTreatmentsDto>();
         
         var returns = _visitRepository.Get()
             .AsNoTracking()

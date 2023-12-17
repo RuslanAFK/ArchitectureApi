@@ -1,4 +1,5 @@
-﻿using ArchitectureApi.Dtos;
+﻿using ArchitectureApi.BusinessLogic.Providers.Abstract;
+using ArchitectureApi.Dtos;
 using ArchitectureApi.Enums;
 using ArchitectureApi.Services;
 using Microsoft.AspNetCore.Authorization;
@@ -12,12 +13,12 @@ public class PatientController : Controller
 {
     private readonly IPatientService _patientService;
 
-    private readonly IPatientProvider _patientProvider;
+    private readonly IAuthProvider _authProvider;
 
-    public PatientController(IPatientService patientService, IPatientProvider patientProvider)
+    public PatientController(IPatientService patientService, IAuthProvider authProvider)
     {
         _patientService = patientService;
-        _patientProvider = patientProvider;
+        _authProvider = authProvider;
     }
 
     [HttpGet]
@@ -34,7 +35,7 @@ public class PatientController : Controller
     [AllowAnonymous]
     public async Task<IActionResult> PersonalCabinet(SignupDto data)
     {
-        var authDto = _patientProvider.Current;
+        var authDto = _authProvider.GetCurrent(HttpContext);
         if (authDto is null || authDto.Role != Roles.Patient.ToString())
         {
             return Unauthorized();
@@ -49,7 +50,7 @@ public class PatientController : Controller
     [AllowAnonymous]
     public async Task<IActionResult> EditCabinet(EditPatientDto data)
     {
-        var authDto = _patientProvider.Current;
+        var authDto = _authProvider.GetCurrent(HttpContext);
         if (authDto is null || authDto.Role != Roles.Patient.ToString())
         {
             return Unauthorized();

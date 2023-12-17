@@ -1,4 +1,5 @@
-﻿using ArchitectureApi.BusinessLogic.Services.Abstract;
+﻿using ArchitectureApi.BusinessLogic.Providers.Abstract;
+using ArchitectureApi.BusinessLogic.Services.Abstract;
 using ArchitectureApi.Dtos;
 using ArchitectureApi.Enums;
 using ArchitectureApi.Services;
@@ -14,21 +15,21 @@ public class VisitController : Controller
     private readonly IDoctorService _doctorService;
     private readonly IPatientService _patientService;
 
-    private readonly IPatientProvider _patientProvider;
+    private readonly IAuthProvider _authProvider;
 
-    public VisitController(IVisitService visitService, IDoctorService doctorService, IPatientService patientService, IPatientProvider patientProvider)
+    public VisitController(IVisitService visitService, IDoctorService doctorService, IPatientService patientService, IAuthProvider authProvider)
     {
         _visitService = visitService;
         _doctorService = doctorService;
         _patientService = patientService;
-        _patientProvider = patientProvider;
+        _authProvider = authProvider;
     }
     
     [HttpGet]
     [ActionName("patient/visits")]
     public async Task<IActionResult> GetVisits()
     {
-        var authDto = _patientProvider.Current;
+        var authDto = _authProvider.GetCurrent(HttpContext);
         if (authDto is null || authDto.Role != Roles.Patient.ToString())
         {
             return Unauthorized();
@@ -42,7 +43,7 @@ public class VisitController : Controller
     [Route("patient/treatments")]
     public async Task<IActionResult> GetTreatments()
     {
-        var authDto = _patientProvider.Current;
+        var authDto = _authProvider.GetCurrent(HttpContext);
         if (authDto is null || authDto.Role != Roles.Patient.ToString())
         {
             return Unauthorized();
@@ -56,7 +57,7 @@ public class VisitController : Controller
     [Route("patient/set-appointment")]
     public async Task<IActionResult> SetAppointment(SetAppointmentDto dto)
     {
-        var authDto = _patientProvider.Current;
+        var authDto = _authProvider.GetCurrent(HttpContext);
         var freeSlots = _doctorService.GetDoctorFreeSlots(dto.DoctorId);
         if (!freeSlots.Any(x => x.From == dto.Time))
         {
