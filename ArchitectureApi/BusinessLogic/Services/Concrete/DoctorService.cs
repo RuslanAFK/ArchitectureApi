@@ -33,13 +33,7 @@ public class DoctorService : IDoctorService
 
     public async Task<DoctorDto?> GetDoctorInfoById(int userId)
     {
-        return await _doctorRepository.Get().AsNoTracking()
-            .Select(x => new DoctorDto()
-            {
-                Id = x.Id,
-                FullName = x.FirstName + " " + x.SecondName + " " + x.LastName,
-                DoctorType = x.DoctorType
-            })
+        return await GetAllDoctorsInfo()
             .FirstOrDefaultAsync(d => d.Id == userId);
     }
 
@@ -58,7 +52,8 @@ public class DoctorService : IDoctorService
             {
                 Id = x.Id,
                 FullName = x.FirstName + " " + x.SecondName + " " + x.LastName,
-                DoctorType = x.DoctorType
+                DoctorType = x.DoctorType,
+                Avatar = x.PhotoFile
             });
     }
 }
