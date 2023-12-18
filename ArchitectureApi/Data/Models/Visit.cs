@@ -1,7 +1,8 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using ArchitectureApi.Models;
 
-namespace ArchitectureApi.Models;
+namespace ArchitectureApi.Data.Models;
 
 public class Visit
 {
@@ -12,6 +13,6 @@ public class Visit
     public DateTime Time { get; set; }
     public string? Treatment { get; set; }
     public string? Notes { get; set; }
-
+    public bool Approved { get; set; }
     public ICollection<User> Participants { get; set; } = new List<User>();
 }

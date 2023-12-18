@@ -1,5 +1,6 @@
 ﻿using System.Data.Common;
 using ArchitectureApi.BusinessLogic.Services.Abstract;
+using ArchitectureApi.Data.Models;
 using ArchitectureApi.Dtos;
 using ArchitectureApi.Extensions;
 using ArchitectureApi.Models;

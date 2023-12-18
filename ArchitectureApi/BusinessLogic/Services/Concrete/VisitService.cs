@@ -1,4 +1,6 @@
-﻿using ArchitectureApi.BusinessLogic.Services.Abstract;
+﻿using ArchitectureApi.BusinessLogic.Dtos;
+using ArchitectureApi.BusinessLogic.Services.Abstract;
+using ArchitectureApi.Data.Models;
 using ArchitectureApi.Data.Repositories.Abstract;
 using ArchitectureApi.Dtos;
 using ArchitectureApi.Enums;
@@ -10,12 +12,14 @@ namespace ArchitectureApi.BusinessLogic.Services.Concrete;
 public class VisitService : IVisitService
 {
     private readonly IVisitRepository _visitRepository;
+    private readonly IVisitUserRepository _visitUserRepository;
     private readonly IUnitOfWork _unitOfWork;
 
-    public VisitService(IVisitRepository visitRepository, IUnitOfWork unitOfWork)
+    public VisitService(IVisitRepository visitRepository, IUnitOfWork unitOfWork, IVisitUserRepository visitUserRepository)
     {
         _visitRepository = visitRepository;
         _unitOfWork = unitOfWork;
+        _visitUserRepository = visitUserRepository;
     }
 
     public async Task<List<GetVisitDto>> GetVisits(int patientId)
@@ -35,11 +39,13 @@ public class VisitService : IVisitService
                         Name = x.SecondName + " " + x.FirstName + " " + x.LastName,
                         x.Role
                     })
-                    .FirstOrDefault(x => x.Role == Roles.Doctor.ToString())
+                    .FirstOrDefault(x => x.Role == Roles.Doctor.ToString()),
+                visit.Approved
             });
         var dto = returns.Select(x => new GetVisitDto()
         {
-            Time = x.Time, Doctor = x.Doctor != null ? x.Doctor.Name : string.Empty
+            Time = x.Time, Doctor = x.Doctor != null ? x.Doctor.Name : string.Empty,
+            Approved = x.Approved, Declined = x.Doctor == null
         });
         return await dto.ToListAsync();
     }
@@ -64,10 +70,11 @@ public class VisitService : IVisitService
                         x.Role
                     })
                     .FirstOrDefault(x => x.Role == Roles.Doctor.ToString())
-            });
+            })
+            .Where(x => x.Doctor != null);
         var dto = returns.Select(x => new GetTreatmentsDto()
         {
-            Treatment = x.Treatment!, Doctor = x.Doctor != null ? x.Doctor.Name : string.Empty
+            Treatment = x.Treatment!, Doctor = x.Doctor!.Name
         });
         return await dto.ToListAsync();
     }
@@ -93,5 +100,59 @@ public class VisitService : IVisitService
         _visitRepository.Create(visit);
         await _unitOfWork.SaveChanges();
         return visit;
+    }
+    
+    public async Task<bool> SetFeedback(int doctorId, FeedbackDto dto)
+    {
+        var visit = await GetVisitByRole(dto.VisitId, doctorId, Roles.Doctor);
+        if (visit == null)
+            return false;
+
+        if (dto.Approve)
+        {
+            visit.Approved = true;
+        }
+        else
+        {
+            var visitUser = await _visitUserRepository.Get()
+                .FirstOrDefaultAsync(x => x.UserId == doctorId && x.VisitId == visit.Id);
+
+            if (visitUser != null)
+            {
+                _visitUserRepository.Delete(visitUser);
+            }
+        }
+
+        await _unitOfWork.SaveChanges();
+        return true;
+    }
+    
+    public async Task<bool> SetTreatment(int doctorId, TreatmentDto dto)
+    {
+        var visit = await GetVisitByRole(dto.VisitId, doctorId, Roles.Doctor);
+        if (visit == null)
+            return false;
+
+        visit.Treatment = dto.Treatment;
+        await _unitOfWork.SaveChanges();
+        return true;
+    }
+    
+    public async Task<bool> DeleteVisit(int patientId, int visitId)
+    {
+        var visit = await GetVisitByRole(patientId, visitId, Roles.Patient);
+        if (visit == null)
+            return false;
+
+        _visitRepository.Delete(visit);
+        await _unitOfWork.SaveChanges();
+        return true;
+    }
+    
+    private async Task<Visit?> GetVisitByRole(int visitId, int patientId, Roles role)
+    {
+        return await _visitRepository.Get()
+            .Where(x => x.Participants.Any(p => p.Role == role.ToString() && p.Id == patientId))
+            .FirstOrDefaultAsync(x => x.Id == visitId);
     }
 }

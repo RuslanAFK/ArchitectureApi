@@ -1,7 +1,7 @@
-﻿using ArchitectureApi.BusinessLogic.Providers.Abstract;
+﻿using ArchitectureApi.BusinessLogic.Dtos;
+using ArchitectureApi.BusinessLogic.Providers.Abstract;
 using ArchitectureApi.BusinessLogic.Services.Abstract;
 using ArchitectureApi.Dtos;
-using ArchitectureApi.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -13,37 +13,15 @@ namespace ArchitectureApi.Controllers;
 public class PatientController : Controller
 {
     private readonly IPatientService _patientService;
+    private readonly IVisitService _visitService;
 
     private readonly IAuthProvider _authProvider;
 
-    public PatientController(IPatientService patientService, IAuthProvider authProvider)
+    public PatientController(IPatientService patientService, IAuthProvider authProvider, IVisitService visitService)
     {
         _patientService = patientService;
         _authProvider = authProvider;
-    }
-
-    [HttpPost]
-    [ActionName("patient/signup")]
-    [AllowAnonymous]
-    public async Task<IActionResult> CreateAccount(SignupDto data)
-    {
-        _patientService.Signup(data);
-        return Ok();
-    }
-    
-    [HttpPost]
-    [ActionName("patient/signin")]
-    [AllowAnonymous]
-    public async Task<IActionResult> SignIn(SigninDto data)
-    {
-        var token = await _patientService.Signin(data);
-        if (token is null)
-            return BadRequest("Wrong email or password.");
-        
-        return Ok(new
-        {
-            Token = token
-        });
+        _visitService = visitService;
     }
     
     [HttpGet]
@@ -52,7 +30,7 @@ public class PatientController : Controller
     {
         var authDto = _authProvider.GetCurrent(HttpContext);
         if (authDto is null)
-            return BadRequest("Error getting user from token.");
+            return Unauthorized();
         
         var patient = await _patientService.GetPersonalInfoById(authDto.Id);
         return Ok(patient);
@@ -64,9 +42,24 @@ public class PatientController : Controller
     {
         var authDto = _authProvider.GetCurrent(HttpContext);
         if (authDto is null)
-            return BadRequest("Error getting user from token.");
+            return Unauthorized();
         
         await _patientService.EditPersonalInfoById(authDto.Id, data);
         return Ok();
+    }
+    
+    [HttpPost]
+    [ActionName("patient/delete-visit")]
+    public async Task<IActionResult> DeleteVisit(DeleteVisitDto data)
+    {
+        var authDto = _authProvider.GetCurrent(HttpContext);
+        if (authDto is null)
+            return Unauthorized();
+        
+        var done = await _visitService.DeleteVisit(authDto.Id, data.VisitId);
+        if (!done)
+            return BadRequest("Visit not found.");
+        
+        return Ok("Successfully deleted visit.");
     }
 }

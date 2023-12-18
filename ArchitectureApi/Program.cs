@@ -8,7 +8,6 @@ using ArchitectureApi.Data.Repositories.Abstract;
 using ArchitectureApi.Data.Repositories.Concrete;
 using ArchitectureApi.Middleware;
 using ArchitectureApi.Models;
-using ArchitectureApi.Services;
 using ArchitectureApi.Services.Concrete;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
@@ -35,6 +34,7 @@ internal class Program
         builder.Services.AddTransient<IDoctorRepository, DoctorRepository>();
         builder.Services.AddTransient<IPatientRepository, PatientRepository>();
         builder.Services.AddTransient<IVisitRepository, VisitRepository>();
+        builder.Services.AddTransient<IVisitUserRepository, VisitUserRepository>();
         builder.Services.AddTransient<IUnitOfWork, UnitOfWork>();
 
         builder.Services.AddScoped<IVisitService, VisitService>();
@@ -43,6 +43,7 @@ internal class Program
 
         builder.Services.AddTransient<IPatientService, PatientService>();
         builder.Services.AddTransient<IDoctorService, DoctorService>();
+        builder.Services.AddTransient<IAuthService, AuthService>();
 
         builder.Services.AddTransient<IAuthProvider, AuthProvider>();
         builder.Services.AddTransient<ITokenProvider, TokenProvider>();

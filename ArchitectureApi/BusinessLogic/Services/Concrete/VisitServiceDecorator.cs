@@ -1,4 +1,6 @@
-﻿using ArchitectureApi.BusinessLogic.Services.Abstract;
+﻿using ArchitectureApi.BusinessLogic.Dtos;
+using ArchitectureApi.BusinessLogic.Services.Abstract;
+using ArchitectureApi.Data.Models;
 using ArchitectureApi.Dtos;
 using ArchitectureApi.Models;
 
@@ -26,5 +28,20 @@ public abstract class VisitServiceDecorator : IVisitService
     public virtual async Task<Visit> Create(User doctor, User patient, DateTime time, string? notes = null)
     {
        return await Decoratee.Create(doctor, patient, time, notes);
+    }
+
+    public Task<bool> SetFeedback(int doctorId, FeedbackDto dto)
+    {
+        throw new NotImplementedException();
+    }
+
+    public Task<bool> SetTreatment(int doctorId, TreatmentDto dto)
+    {
+        throw new NotImplementedException();
+    }
+
+    public Task<bool> DeleteVisit(int patientId, int visitId)
+    {
+        throw new NotImplementedException();
     }
 }
