@@ -35,6 +35,7 @@ internal class Program
         builder.Services.AddTransient<IPatientRepository, PatientRepository>();
         builder.Services.AddTransient<IVisitRepository, VisitRepository>();
         builder.Services.AddTransient<IVisitUserRepository, VisitUserRepository>();
+        builder.Services.AddTransient<IUsersRepository, UserRepository>();
         builder.Services.AddTransient<IUnitOfWork, UnitOfWork>();
 
         builder.Services.AddScoped<IVisitService, VisitService>();

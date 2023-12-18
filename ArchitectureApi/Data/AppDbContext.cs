@@ -46,7 +46,7 @@ public class AppDbContext : DbContext
                 {
                     Role = "Doctor", FirstName = "Папа", SecondName = "Пйотр", LastName = "Батьковтч", Id = 2,
                     Address = "Львів, вул. Київська, 49", Phone = "097-586-55-25", Email = "papa@gmail.com",
-                    DoctorType = "Стоматолог",
+                    DoctorType = "Стоматолог", Password = "DoctorPass",
                     PhotoFile =
                         "https://professions.ng/wp-content/uploads/2023/07/The-Process-of-Becoming-a-Doctor-in-Nigeria-A-Roadmap2-768x768.jpg"
                 },
@@ -54,7 +54,7 @@ public class AppDbContext : DbContext
                 {
                     Role = "Doctor", FirstName = "Карпінець", SecondName = "Юрій", LastName = "Батькович", Id = 3,
                     Address = "Львів, вул. Луганська, 77", Phone = "097-785-55-25", Email = "yukarp@gmail.com",
-                    DoctorType = "Стоматолог",
+                    DoctorType = "Стоматолог", Password = "DoctorPass",
                     PhotoFile =
                         "https://hips.hearstapps.com/hmg-prod/images/portrait-of-a-happy-young-doctor-in-his-clinic-royalty-free-image-1661432441.jpg?crop=0.66698xw:1xh;center,top&resize=1200:*"
                 },
@@ -62,7 +62,7 @@ public class AppDbContext : DbContext
                 {
                     Role = "Doctor", FirstName = "Артур", SecondName = "Пацкун", LastName = "Батькович", Id = 4,
                     Address = "Львів, просп. Свободи, 21", Phone = "097-688-55-25", Email = "art_patskun@gmail.com",
-                    DoctorType = "Стоматолог",
+                    DoctorType = "Стоматолог", Password = "DoctorPass",
                     PhotoFile =
                         "https://images.unsplash.com/photo-1612349317150-e413f6a5b16d?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
                 },
@@ -71,7 +71,7 @@ public class AppDbContext : DbContext
                     Id = 5,
                     Role = "Doctor", FirstName = "Анастасія", SecondName = "Зайчук", LastName = "Іванівна",
                     Address = "Львів, просп. Свободи, 21", Phone = "097-586-55-25", Email = "papa@gmail.com",
-                    DoctorType = "Педіатр",
+                    DoctorType = "Педіатр", Password = "DoctorPass",
                     PhotoFile =
                         "https://cdn-cmdnf.nitrocdn.com/rIbSxuwuPAXwZSWprHLoMZwMQUyOlAnq/assets/images/optimized/rev-597a6f2/www.unitekemt.com/wp-content/uploads/2022/05/shutterstock_1473042992-1030x687.jpg"
                 },
@@ -80,7 +80,7 @@ public class AppDbContext : DbContext
                     Id = 6,
                     Role = "Doctor", FirstName = "Анастасія", SecondName = "Зайчук", LastName = "Іванівна",
                     Address = "Львів, просп. Свободи, 21", Phone = "097-586-55-25", Email = "papa@gmail.com",
-                    DoctorType = "Педіатр",
+                    DoctorType = "Педіатр", Password = "DoctorPass",
                     PhotoFile =
                         "https://cdn-cmdnf.nitrocdn.com/rIbSxuwuPAXwZSWprHLoMZwMQUyOlAnq/assets/images/optimized/rev-597a6f2/www.unitekemt.com/wp-content/uploads/2022/05/shutterstock_1473042992-1030x687.jpg"
                 },
@@ -89,7 +89,7 @@ public class AppDbContext : DbContext
                     Id = 12,
                     Role = "Doctor", FirstName = "Анастасія", SecondName = "Зайчук", LastName = "Іванівна",
                     Address = "Львів, просп. Свободи, 21", Phone = "097-586-55-25", Email = "papa@gmail.com",
-                    DoctorType = "Педіатр",
+                    DoctorType = "Педіатр", Password = "DoctorPass",
                     PhotoFile =
                         "https://cdn-cmdnf.nitrocdn.com/rIbSxuwuPAXwZSWprHLoMZwMQUyOlAnq/assets/images/optimized/rev-597a6f2/www.unitekemt.com/wp-content/uploads/2022/05/shutterstock_1473042992-1030x687.jpg"
                 },
@@ -98,7 +98,7 @@ public class AppDbContext : DbContext
                     Id = 7,
                     Role = "Doctor", FirstName = "Анастасія", SecondName = "Зайчук", LastName = "Іванівна",
                     Address = "Львів, просп. Свободи, 21", Phone = "097-586-55-25", Email = "papa@gmail.com",
-                    DoctorType = "Педіатр",
+                    DoctorType = "Педіатр", Password = "DoctorPass",
                     PhotoFile =
                         "https://cdn-cmdnf.nitrocdn.com/rIbSxuwuPAXwZSWprHLoMZwMQUyOlAnq/assets/images/optimized/rev-597a6f2/www.unitekemt.com/wp-content/uploads/2022/05/shutterstock_1473042992-1030x687.jpg"
                 },
@@ -107,7 +107,7 @@ public class AppDbContext : DbContext
                     Id = 11,
                     Role = "Doctor", FirstName = "Анастасія", SecondName = "Зайчук", LastName = "Іванівна",
                     Address = "Львів, просп. Свободи, 21", Phone = "097-586-55-25", Email = "papa@gmail.com",
-                    DoctorType = "Педіатр",
+                    DoctorType = "Педіатр", Password = "DoctorPass",
                     PhotoFile =
                         "https://cdn-cmdnf.nitrocdn.com/rIbSxuwuPAXwZSWprHLoMZwMQUyOlAnq/assets/images/optimized/rev-597a6f2/www.unitekemt.com/wp-content/uploads/2022/05/shutterstock_1473042992-1030x687.jpg"
                 },
@@ -116,7 +116,7 @@ public class AppDbContext : DbContext
                     Id = 8,
                     Role = "Doctor", FirstName = "Анастасія", SecondName = "Зайчук", LastName = "Іванівна",
                     Address = "Львів, просп. Свободи, 21", Phone = "097-586-55-25", Email = "papa@gmail.com",
-                    DoctorType = "Педіатр",
+                    DoctorType = "Педіатр", Password = "DoctorPass",
                     PhotoFile =
                         "https://cdn-cmdnf.nitrocdn.com/rIbSxuwuPAXwZSWprHLoMZwMQUyOlAnq/assets/images/optimized/rev-597a6f2/www.unitekemt.com/wp-content/uploads/2022/05/shutterstock_1473042992-1030x687.jpg"
                 },
@@ -125,7 +125,7 @@ public class AppDbContext : DbContext
                     Id = 9,
                     Role = "Doctor", FirstName = "Анастасія", SecondName = "Зайчук", LastName = "Іванівна",
                     Address = "Львів, просп. Свободи, 21", Phone = "097-586-55-25", Email = "papa@gmail.com",
-                    DoctorType = "Педіатр",
+                    DoctorType = "Педіатр", Password = "DoctorPass",
                     PhotoFile =
                         "https://cdn-cmdnf.nitrocdn.com/rIbSxuwuPAXwZSWprHLoMZwMQUyOlAnq/assets/images/optimized/rev-597a6f2/www.unitekemt.com/wp-content/uploads/2022/05/shutterstock_1473042992-1030x687.jpg"
                 },
