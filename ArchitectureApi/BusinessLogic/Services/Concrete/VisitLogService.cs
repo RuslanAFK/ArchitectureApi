@@ -16,11 +16,11 @@ public class VisitLogService : VisitServiceDecorator, IVisitService
         _logger = logger;
     }
 
-    public async Task<List<GetVisitDto>> GetVisits(int userName)
+    public async Task<List<GetVisitDto>> GetVisits(int userId)
     {
         try
         {
-            var visits = await base.GetVisits(userName);
+            var visits = await base.GetVisits(userId);
             _logger.LogInformation("Visits fetched: {0}", visits.Count);
             return visits;
         }
@@ -52,8 +52,7 @@ public class VisitLogService : VisitServiceDecorator, IVisitService
         {
             var visit = await base.Create(doctor, patient, time, notes);
             _logger.LogInformation("Successfully created visit for: {0:f}, doctor: {1}",
-                visit.Time,
-                doctor.FirstName.Append(doctor.SecondName).Append(doctor.LastName));
+                visit.Time, doctor.FullName);
             return visit;
         }
         catch (ArgumentException e)

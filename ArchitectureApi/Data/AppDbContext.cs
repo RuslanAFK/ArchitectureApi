@@ -36,7 +36,7 @@ public class AppDbContext : DbContext
             {
                 new()
                 {
-                    Role = "Patient", FirstName = "Руслан", SecondName = "Пундак", LastName = "Ігорович", Id = 1,
+                    Role = "Patient", FullName = "Руслан Пундак Ігорович", Id = 1,
                     Password = "RuslanPass",
                     Address = "Львів, вул. Жовківська, 39", Phone = "095-655-65-89", Email = "ruslan_p@gmail.com",
                     PhotoFile =
@@ -44,7 +44,7 @@ public class AppDbContext : DbContext
                 },
                 new()
                 {
-                    Role = "Doctor", FirstName = "Папа", SecondName = "Пйотр", LastName = "Батьковтч", Id = 2,
+                    Role = "Doctor", FullName = "Папа Пйотр Батьковтч", Id = 2,
                     Address = "Львів, вул. Київська, 49", Phone = "097-586-55-25", Email = "papa@gmail.com",
                     DoctorType = "Стоматолог", Password = "DoctorPass",
                     PhotoFile =
@@ -52,7 +52,7 @@ public class AppDbContext : DbContext
                 },
                 new()
                 {
-                    Role = "Doctor", FirstName = "Карпінець", SecondName = "Юрій", LastName = "Батькович", Id = 3,
+                    Role = "Doctor", FullName = "Карпінець Юрій Батькович", Id = 3,
                     Address = "Львів, вул. Луганська, 77", Phone = "097-785-55-25", Email = "yukarp@gmail.com",
                     DoctorType = "Стоматолог", Password = "DoctorPass",
                     PhotoFile =
@@ -60,7 +60,7 @@ public class AppDbContext : DbContext
                 },
                 new()
                 {
-                    Role = "Doctor", FirstName = "Артур", SecondName = "Пацкун", LastName = "Батькович", Id = 4,
+                    Role = "Doctor", FullName = "Артур Пацкун Батькович", Id = 4,
                     Address = "Львів, просп. Свободи, 21", Phone = "097-688-55-25", Email = "art_patskun@gmail.com",
                     DoctorType = "Стоматолог", Password = "DoctorPass",
                     PhotoFile =
@@ -69,7 +69,7 @@ public class AppDbContext : DbContext
                 new()
                 {
                     Id = 5,
-                    Role = "Doctor", FirstName = "Анастасія", SecondName = "Зайчук", LastName = "Іванівна",
+                    Role = "Doctor", FullName = "Анастасія Зайчук Іванівна",
                     Address = "Львів, просп. Свободи, 21", Phone = "097-586-55-25", Email = "papa@gmail.com",
                     DoctorType = "Педіатр", Password = "DoctorPass",
                     PhotoFile =
@@ -78,7 +78,7 @@ public class AppDbContext : DbContext
                 new()
                 {
                     Id = 6,
-                    Role = "Doctor", FirstName = "Анастасія", SecondName = "Зайчук", LastName = "Іванівна",
+                    Role = "Doctor", FullName = "Анастасія Зайчук Іванівна",
                     Address = "Львів, просп. Свободи, 21", Phone = "097-586-55-25", Email = "papa@gmail.com",
                     DoctorType = "Педіатр", Password = "DoctorPass",
                     PhotoFile =
@@ -87,7 +87,7 @@ public class AppDbContext : DbContext
                 new()
                 {
                     Id = 12,
-                    Role = "Doctor", FirstName = "Анастасія", SecondName = "Зайчук", LastName = "Іванівна",
+                    Role = "Doctor", FullName = "Анастасія Зайчук Іванівна",
                     Address = "Львів, просп. Свободи, 21", Phone = "097-586-55-25", Email = "papa@gmail.com",
                     DoctorType = "Педіатр", Password = "DoctorPass",
                     PhotoFile =
@@ -96,7 +96,7 @@ public class AppDbContext : DbContext
                 new()
                 {
                     Id = 7,
-                    Role = "Doctor", FirstName = "Анастасія", SecondName = "Зайчук", LastName = "Іванівна",
+                    Role = "Doctor", FullName = "Анастасія Зайчук Іванівна",
                     Address = "Львів, просп. Свободи, 21", Phone = "097-586-55-25", Email = "papa@gmail.com",
                     DoctorType = "Педіатр", Password = "DoctorPass",
                     PhotoFile =
@@ -105,7 +105,7 @@ public class AppDbContext : DbContext
                 new()
                 {
                     Id = 11,
-                    Role = "Doctor", FirstName = "Анастасія", SecondName = "Зайчук", LastName = "Іванівна",
+                    Role = "Doctor", FullName = "Анастасія Зайчук Іванівна",
                     Address = "Львів, просп. Свободи, 21", Phone = "097-586-55-25", Email = "papa@gmail.com",
                     DoctorType = "Педіатр", Password = "DoctorPass",
                     PhotoFile =
@@ -114,7 +114,7 @@ public class AppDbContext : DbContext
                 new()
                 {
                     Id = 8,
-                    Role = "Doctor", FirstName = "Анастасія", SecondName = "Зайчук", LastName = "Іванівна",
+                    Role = "Doctor", FullName = "Анастасія Зайчук Іванівна",
                     Address = "Львів, просп. Свободи, 21", Phone = "097-586-55-25", Email = "papa@gmail.com",
                     DoctorType = "Педіатр", Password = "DoctorPass",
                     PhotoFile =
@@ -123,7 +123,7 @@ public class AppDbContext : DbContext
                 new()
                 {
                     Id = 9,
-                    Role = "Doctor", FirstName = "Анастасія", SecondName = "Зайчук", LastName = "Іванівна",
+                    Role = "Doctor", FullName = "Анастасія Зайчук Іванівна",
                     Address = "Львів, просп. Свободи, 21", Phone = "097-586-55-25", Email = "papa@gmail.com",
                     DoctorType = "Педіатр", Password = "DoctorPass",
                     PhotoFile =
@@ -131,7 +131,7 @@ public class AppDbContext : DbContext
                 },
                 new()
                 {
-                    Role = "Patient", FirstName = "Вікторія", SecondName = "Анашян", LastName = "Орестівна", Id = 10,
+                    Role = "Patient", FullName = "Вікторія Анашян Орестівна", Id = 10,
                     Address = "Львів, вул. Жовківська, 39", Phone = "095-655-65-89", Email = "vika@gmail.com",
                     Password = "VictoriaPass",
                     PhotoFile =

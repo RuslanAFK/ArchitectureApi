@@ -22,21 +22,21 @@ public class VisitService : IVisitService
         _visitUserRepository = visitUserRepository;
     }
 
-    public async Task<List<GetVisitDto>> GetVisits(int patientId)
+    public async Task<List<GetVisitDto>> GetVisits(int userId)
     {
-        if (patientId == default)
+        if (userId == default)
             return new List<GetVisitDto>();
         
         var returns = _visitRepository.Get()
             .Where(visit => visit.Participants
-                .Any(u => u.Id == patientId && u.Role == Roles.Patient.ToString()))
+                .Any(u => u.Id == userId))
             .Select(visit => new
             {
                 visit.Time,
                 Doctor = visit.Participants
                     .Select(x => new
                     {
-                        Name = x.SecondName + " " + x.FirstName + " " + x.LastName,
+                        Name = x.FullName,
                         x.Role
                     })
                     .FirstOrDefault(x => x.Role == Roles.Doctor.ToString()),
@@ -66,7 +66,7 @@ public class VisitService : IVisitService
                 Doctor = visit.Participants
                     .Select(x => new
                     {
-                        Name = x.SecondName + " " + x.FirstName + " " + x.LastName,
+                        Name = x.FullName,
                         x.Role
                     })
                     .FirstOrDefault(x => x.Role == Roles.Doctor.ToString())

@@ -1,14 +1,9 @@
-﻿using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
-
-namespace ArchitectureApi.Models;
+﻿namespace ArchitectureApi.Models;
 
 public class User
 {
     public int Id { get; set; }
-    public string FirstName { get; set; }
-    public string? SecondName { get; set; }
-    public string LastName { get; set; }
+    public string FullName { get; set; }
     public string? PhotoFile { get; set; }
     public string Email { get; set; }
     public string? Address { get; set; }

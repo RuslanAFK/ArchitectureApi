@@ -7,7 +7,7 @@ namespace ArchitectureApi.BusinessLogic.Services.Abstract;
 
 public interface IVisitService
 {
-    Task<List<GetVisitDto>> GetVisits(int patientId);
+    Task<List<GetVisitDto>> GetVisits(int userId);
     Task<List<GetTreatmentsDto>> GetTreatments(int patientId);
     Task<Visit> Create(User doctor, User patient, DateTime time, string? notes = null);
     Task<bool> SetFeedback(int doctorId, FeedbackDto dto);

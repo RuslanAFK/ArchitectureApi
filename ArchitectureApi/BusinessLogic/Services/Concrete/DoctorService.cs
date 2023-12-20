@@ -51,7 +51,7 @@ public class DoctorService : IDoctorService
             .Select(x => new DoctorDto()
             {
                 Id = x.Id,
-                FullName = x.FirstName + " " + x.SecondName + " " + x.LastName,
+                FullName = x.FullName,
                 DoctorType = x.DoctorType,
                 Avatar = x.PhotoFile
             });

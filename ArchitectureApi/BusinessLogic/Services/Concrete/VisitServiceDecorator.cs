@@ -15,9 +15,9 @@ public abstract class VisitServiceDecorator : IVisitService
         Decoratee = decoratee;
     }
 
-    public async Task<List<GetVisitDto>> GetVisits(int userName)
+    public async Task<List<GetVisitDto>> GetVisits(int userId)
     {
-        return await Decoratee.GetVisits(userName);
+        return await Decoratee.GetVisits(userId);
     }
 
     public async Task<List<GetTreatmentsDto>> GetTreatments(int userName)

@@ -40,7 +40,7 @@ public class PatientService : IPatientService
                 Address = x.Address ?? "",
                 Avatar = x.PhotoFile ?? "",
                 Email = x.Email ?? "",
-                FullName = x.FirstName+" "+x.SecondName+" "+x.LastName
+                FullName = x.FullName
             })
             .FirstOrDefaultAsync(x => x.Id == id);
     }
@@ -49,9 +49,7 @@ public class PatientService : IPatientService
     {
         var patient = await _patientRepository.Get().FirstAsync(x => x.Id == id);
 
-        patient.FirstName = data.FirstName ?? patient.FirstName;
-        patient.SecondName = data.SecondName ?? patient.SecondName;
-        patient.LastName = data.LastName ?? patient.LastName;
+        patient.FullName = data.FirstName ?? patient.FullName;
         patient.PhotoFile = data.Avatar ?? patient.PhotoFile;
         patient.Email = data.Email ?? patient.Email;
         patient.Address = data.Address ?? patient.Address;
@@ -62,8 +60,7 @@ public class PatientService : IPatientService
 
     public async Task Signup(SignupDto data)
     {
-        var patient = new UserBuilder(data.FirstName, data.LastName)
-            .WithSecondName(data.SecondName)
+        var patient = new UserBuilder(data.FullName)
             .WithAvatar(data.Avatar)
             .AsPatient()
             .Build();

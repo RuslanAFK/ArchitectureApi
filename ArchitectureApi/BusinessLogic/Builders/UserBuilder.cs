@@ -7,18 +7,12 @@ public class UserBuilder
 {
     private readonly User _user;
 
-    public UserBuilder(string firstName, string lastName)
+    public UserBuilder(string firstName)
     {
         _user = new User()
         {
-            FirstName = firstName, LastName = lastName
+            FullName = firstName
         };
-    }
-
-    public UserBuilder WithSecondName(string secondName)
-    {
-        _user.SecondName = secondName;
-        return this;
     }
     
     public UserBuilder WithAvatar(string avatarPath)

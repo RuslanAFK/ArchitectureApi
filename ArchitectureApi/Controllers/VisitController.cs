@@ -26,7 +26,7 @@ public class VisitController : Controller
     }
     
     [HttpGet]
-    [ActionName("patient/visits")]
+    [ActionName("shared/visits")]
     public async Task<IActionResult> GetVisits()
     {
         var authDto = _authProvider.GetCurrent(HttpContext);
