@@ -71,6 +71,12 @@ public class PatientController : Controller
     {
         var authDto = _authProvider.GetCurrent(HttpContext)!;
 
+        var minute = dto.Time.Minute;
+        if (minute != 0)
+        {
+            return BadRequest("Only time with 00 minutes supported");
+        }
+
         var isTaken = await _doctorService.IsDoctorTaken(dto.DoctorId, dto.Time);
         if (isTaken)
         {
