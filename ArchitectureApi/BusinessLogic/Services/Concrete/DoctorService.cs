@@ -42,7 +42,7 @@ public class DoctorService : IDoctorService
         return await _visitRepository.Get()
             .AsNoTracking()
             .AnyAsync(visit => visit.Participants.Any(u => u.Id == doctorId && u.Role == Roles.Doctor.ToString()) &&
-                               visit.Time == time);
+                               visit.Time == time && visit.Approved);
     }
 
     public IQueryable<DoctorDto> GetAllDoctorsInfo()
