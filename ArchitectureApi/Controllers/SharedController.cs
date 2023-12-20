@@ -12,11 +12,13 @@ public class SharedController : Controller
 {
     private readonly IAuthProvider _authProvider;
     private readonly IVisitService _visitService;
+    private readonly ISharedService _sharedService;
 
-    public SharedController(IVisitService visitService, IAuthProvider authProvider)
+    public SharedController(IVisitService visitService, IAuthProvider authProvider, ISharedService sharedService)
     {
         _visitService = visitService;
         _authProvider = authProvider;
+        _sharedService = sharedService;
     }
 
 
@@ -30,5 +32,17 @@ public class SharedController : Controller
 
         var visits = await _visitService.GetVisits(authDto.Id);
         return Ok(visits);
+    }
+    
+    [HttpGet]
+    [ActionName("shared/cabinet")]
+    public async Task<IActionResult> PersonalCabinet()
+    {
+        var authDto = _authProvider.GetCurrent(HttpContext);
+        if (authDto is null)
+            return Unauthorized();
+        
+        var patient = await _sharedService.GetPersonalInfoById(authDto.Id);
+        return Ok(patient);
     }
 }

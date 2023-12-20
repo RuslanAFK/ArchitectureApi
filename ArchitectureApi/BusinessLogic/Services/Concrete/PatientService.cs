@@ -29,22 +29,7 @@ public class PatientService : IPatientService
     {
         return _patientRepository.Get().FirstOrDefaultAsync(x => x.Id == userName);
     }
-
-    public async Task<PatientDto?> GetPersonalInfoById(int id)
-    {
-        return await _patientRepository.Get().AsNoTracking()
-            .Select(x => new PatientDto()
-            {
-                Id = x.Id,
-                Phone = x.Phone ?? "",
-                Address = x.Address ?? "",
-                Avatar = x.PhotoFile ?? "",
-                Email = x.Email ?? "",
-                FullName = x.FullName
-            })
-            .FirstOrDefaultAsync(x => x.Id == id);
-    }
-
+    
     public async Task EditPersonalInfoById(int id, EditPatientDto data)
     {
         var patient = await _patientRepository.Get().FirstAsync(x => x.Id == id);

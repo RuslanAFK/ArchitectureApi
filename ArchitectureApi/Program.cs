@@ -39,7 +39,8 @@ internal class Program
         builder.Services.AddTransient<IUnitOfWork, UnitOfWork>();
 
         builder.Services.AddScoped<IVisitService, VisitService>();
-
+        builder.Services.AddScoped<ISharedService, SharedService>();
+        
         builder.Services.AddScoped<IHospitalService>(HospitalService.Self);
 
         builder.Services.AddTransient<IPatientService, PatientService>();
