@@ -28,23 +28,22 @@ public class VisitService : IVisitService
         var returns = _visitRepository.Get()
             .Where(visit => visit.Participants
                 .Any(u => u.Id == userId))
-            .Select(visit => new
+            .Select(visit => new GetVisitDto()
             {
-                visit.Time,
+                Time = visit.Time,
                 Doctor = visit.Participants
                     .Where(x => x.Role == Roles.Doctor.ToString())
                     .Select(x => x.FullName).FirstOrDefault(),
                 Patient = visit.Participants
                     .Where(x => x.Role == Roles.Patient.ToString())
                     .Select(x => x.FullName).FirstOrDefault(),
-                visit.Approved, visit.Declined, visit.Id
+                Approved = visit.Approved,
+                Declined = visit.Declined, 
+                VisitId = visit.Id,
+                Notes = visit.Notes
             });
-        var dto = returns.Select(x => new GetVisitDto()
-        {
-            Time = x.Time, Doctor = x.Doctor, Patient = x.Patient,
-            Approved = x.Approved, Declined = x.Declined, VisitId = x.Id
-        });
-        return await dto.ToListAsync();
+        
+        return await returns.ToListAsync();
     }
 
     public async Task<TimerDto?> GetTimer(int userId, int visitId)
