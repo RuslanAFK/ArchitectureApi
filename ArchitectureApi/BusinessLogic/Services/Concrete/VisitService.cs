@@ -40,12 +40,12 @@ public class VisitService : IVisitService
                         x.Role
                     })
                     .FirstOrDefault(x => x.Role == Roles.Doctor.ToString()),
-                visit.Approved
+                visit.Approved, visit.Declined
             });
         var dto = returns.Select(x => new GetVisitDto()
         {
             Time = x.Time, Doctor = x.Doctor != null ? x.Doctor.Name : string.Empty,
-            Approved = x.Approved, Declined = x.Doctor == null
+            Approved = x.Approved, Declined = x.Declined
         });
         return await dto.ToListAsync();
     }
@@ -111,16 +111,12 @@ public class VisitService : IVisitService
         if (dto.Approve)
         {
             visit.Approved = true;
+            visit.Declined = false;
         }
         else
         {
-            var visitUser = await _visitUserRepository.Get()
-                .FirstOrDefaultAsync(x => x.UserId == doctorId && x.VisitId == visit.Id);
-
-            if (visitUser != null)
-            {
-                _visitUserRepository.Delete(visitUser);
-            }
+            visit.Approved = false;
+            visit.Declined = true;
         }
 
         await _unitOfWork.SaveChanges();

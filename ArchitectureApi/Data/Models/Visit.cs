@@ -14,5 +14,6 @@ public class Visit
     public string? Treatment { get; set; }
     public string? Notes { get; set; }
     public bool Approved { get; set; }
+    public bool Declined { get; set; }
     public ICollection<User> Participants { get; set; } = new List<User>();
 }
