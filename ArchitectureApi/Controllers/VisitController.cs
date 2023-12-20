@@ -26,18 +26,6 @@ public class VisitController : Controller
     }
     
     [HttpGet]
-    [ActionName("shared/visits")]
-    public async Task<IActionResult> GetVisits()
-    {
-        var authDto = _authProvider.GetCurrent(HttpContext);
-        if (authDto is null)
-            return BadRequest("Error getting user from token.");
-
-        var visits = await _visitService.GetVisits(authDto.Id);
-        return Ok(visits);
-    }
-    
-    [HttpGet]
     [ActionName("patient/treatments")]
     public async Task<IActionResult> GetTreatments()
     {

@@ -12,14 +12,12 @@ namespace ArchitectureApi.BusinessLogic.Services.Concrete;
 public class VisitService : IVisitService
 {
     private readonly IVisitRepository _visitRepository;
-    private readonly IVisitUserRepository _visitUserRepository;
     private readonly IUnitOfWork _unitOfWork;
 
-    public VisitService(IVisitRepository visitRepository, IUnitOfWork unitOfWork, IVisitUserRepository visitUserRepository)
+    public VisitService(IVisitRepository visitRepository, IUnitOfWork unitOfWork)
     {
         _visitRepository = visitRepository;
         _unitOfWork = unitOfWork;
-        _visitUserRepository = visitUserRepository;
     }
 
     public async Task<List<GetVisitDto>> GetVisits(int userId)
@@ -34,17 +32,16 @@ public class VisitService : IVisitService
             {
                 visit.Time,
                 Doctor = visit.Participants
-                    .Select(x => new
-                    {
-                        Name = x.FullName,
-                        x.Role
-                    })
-                    .FirstOrDefault(x => x.Role == Roles.Doctor.ToString()),
+                    .Where(x => x.Role == Roles.Doctor.ToString())
+                    .Select(x => x.FullName).FirstOrDefault(),
+                Patient = visit.Participants
+                    .Where(x => x.Role == Roles.Patient.ToString())
+                    .Select(x => x.FullName).FirstOrDefault(),
                 visit.Approved, visit.Declined
             });
         var dto = returns.Select(x => new GetVisitDto()
         {
-            Time = x.Time, Doctor = x.Doctor != null ? x.Doctor.Name : string.Empty,
+            Time = x.Time, Doctor = x.Doctor, Patient = x.Patient,
             Approved = x.Approved, Declined = x.Declined
         });
         return await dto.ToListAsync();
@@ -53,7 +50,7 @@ public class VisitService : IVisitService
     {
         if (patientId == default)
             return new List<GetTreatmentsDto>();
-        
+
         var returns = _visitRepository.Get()
             .AsNoTracking()
             .Where(visit => visit.Participants
@@ -64,17 +61,13 @@ public class VisitService : IVisitService
             {
                 visit.Treatment,
                 Doctor = visit.Participants
-                    .Select(x => new
-                    {
-                        Name = x.FullName,
-                        x.Role
-                    })
-                    .FirstOrDefault(x => x.Role == Roles.Doctor.ToString())
-            })
-            .Where(x => x.Doctor != null);
+                    .Where(x => x.Role == Roles.Doctor.ToString())
+                    .Select(x => x.FullName)
+                    .FirstOrDefault()
+            });
         var dto = returns.Select(x => new GetTreatmentsDto()
         {
-            Treatment = x.Treatment!, Doctor = x.Doctor!.Name
+            Treatment = x.Treatment!, Doctor = x.Doctor
         });
         return await dto.ToListAsync();
     }
