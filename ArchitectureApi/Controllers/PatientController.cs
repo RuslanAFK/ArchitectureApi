@@ -70,11 +70,6 @@ public class PatientController : Controller
     public async Task<IActionResult> SetAppointment(SetAppointmentDto dto)
     {
         var authDto = _authProvider.GetCurrent(HttpContext)!;
-        var freeSlots = _doctorService.GetDoctorFreeSlots(dto.DoctorId);
-        if (!freeSlots.Any(x => x.From == dto.Time))
-        {
-            return BadRequest("No timeslots at given time.");
-        }
 
         var isTaken = await _doctorService.IsDoctorTaken(dto.DoctorId, dto.Time);
         if (isTaken)

@@ -9,7 +9,6 @@ public class AppDbContext : DbContext
 {
     public DbSet<User> Users { get; set; }
     public DbSet<Visit> Visits { get; set; }
-    public DbSet<TimeSlot> TimeSlots { get; set; }
 
     public AppDbContext(DbContextOptions<AppDbContext> options) : base(options)
     {
@@ -136,26 +135,6 @@ public class AppDbContext : DbContext
                     Password = "VictoriaPass",
                     PhotoFile =
                         "https://img.freepik.com/free-photo/smiley-man-relaxing-outdoors_23-2148739334.jpg?w=360&t=st=1702807538~exp=1702808138~hmac=e4d0e9393c54c1ee1bd095ec5661699ca013cdb7205b4753ec46e0ecea406956"
-                }
-            });
-
-        modelBuilder.Entity<TimeSlot>()
-            .HasData(new List<TimeSlot>
-            {
-                new()
-                {
-                    Id = 1,
-                    DoctorId = 2, From = new DateTime(2024, 1, 1, 8, 0, 0), To = new DateTime(2024, 1, 1, 18, 0, 0)
-                },
-                new()
-                {
-                    Id = 2,
-                    DoctorId = 3, From = new DateTime(2024, 1, 1, 8, 0, 0), To = new DateTime(2024, 1, 1, 18, 0, 0)
-                },
-                new()
-                {
-                    Id = 3,
-                    DoctorId = 4, From = new DateTime(2024, 1, 1, 8, 0, 0), To = new DateTime(2024, 1, 1, 18, 0, 0)
                 }
             });
 

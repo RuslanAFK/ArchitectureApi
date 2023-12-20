@@ -18,14 +18,6 @@ public class DoctorService : IDoctorService
         _doctorRepository = doctorRepository;
     }
 
-    public IQueryable<TimeSlot> GetDoctorFreeSlots(int doctorId)
-    {
-        return _doctorRepository.Get()
-            .AsNoTracking()
-            .Where(x => x.Id == doctorId)
-            .SelectMany(x => x.FreeTimeSlots);
-    }
-
     public Task<User?> GetById(int userId)
     {
         return _doctorRepository.Get().FirstOrDefaultAsync(d => d.Id == userId);

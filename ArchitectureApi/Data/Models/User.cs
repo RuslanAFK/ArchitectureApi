@@ -14,5 +14,4 @@ public class User
     
     // Only for doctor role
     public string? DoctorType { get; set; }
-    public ICollection<TimeSlot> FreeTimeSlots { get; set; }
 }
