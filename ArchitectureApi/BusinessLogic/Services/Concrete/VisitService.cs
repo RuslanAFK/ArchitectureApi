@@ -37,12 +37,12 @@ public class VisitService : IVisitService
                 Patient = visit.Participants
                     .Where(x => x.Role == Roles.Patient.ToString())
                     .Select(x => x.FullName).FirstOrDefault(),
-                visit.Approved, visit.Declined
+                visit.Approved, visit.Declined, visit.Id
             });
         var dto = returns.Select(x => new GetVisitDto()
         {
             Time = x.Time, Doctor = x.Doctor, Patient = x.Patient,
-            Approved = x.Approved, Declined = x.Declined
+            Approved = x.Approved, Declined = x.Declined, VisitId = x.Id
         });
         return await dto.ToListAsync();
     }
