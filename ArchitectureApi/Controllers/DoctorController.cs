@@ -48,9 +48,9 @@ public class DoctorController : Controller
         return Ok(doctors);
     }
     
-    [HttpGet]
+    [HttpPost]
     [ActionName("doctor/feedback")]
-    public async Task<IActionResult> VisitFeedback([FromQuery] FeedbackDto dto)
+    public async Task<IActionResult> VisitFeedback([FromBody] FeedbackDto dto)
     {
         var authDto = _authProvider.GetCurrent(HttpContext);
         if (authDto is null)
@@ -70,10 +70,10 @@ public class DoctorController : Controller
         return Ok("Successfully declined visit.");
     }
     
-    [HttpGet]
+    [HttpPost]
     [Authorize(Roles = "Doctor")]
     [ActionName("doctor/set-treatment")]
-    public async Task<IActionResult> SetTreatment([FromQuery] TreatmentDto dto)
+    public async Task<IActionResult> SetTreatment([FromBody] TreatmentDto dto)
     {
         var authDto = _authProvider.GetCurrent(HttpContext);
         if (authDto is null)
