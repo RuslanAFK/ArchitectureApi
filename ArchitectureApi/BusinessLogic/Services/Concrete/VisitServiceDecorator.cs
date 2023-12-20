@@ -20,6 +20,11 @@ public abstract class VisitServiceDecorator : IVisitService
         return await Decoratee.GetVisits(userId);
     }
 
+    public Task<TimerDto> GetTimer(int userId, int visitId)
+    {
+        throw new NotImplementedException();
+    }
+
     public async Task<List<GetTreatmentsDto>> GetTreatments(int userName)
     {
         return await Decoratee.GetTreatments(userName);

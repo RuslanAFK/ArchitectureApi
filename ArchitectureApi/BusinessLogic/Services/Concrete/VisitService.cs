@@ -24,7 +24,7 @@ public class VisitService : IVisitService
     {
         if (userId == default)
             return new List<GetVisitDto>();
-        
+
         var returns = _visitRepository.Get()
             .Where(visit => visit.Participants
                 .Any(u => u.Id == userId))
@@ -46,6 +46,34 @@ public class VisitService : IVisitService
         });
         return await dto.ToListAsync();
     }
+
+    public async Task<TimerDto?> GetTimer(int userId, int visitId)
+    {
+        if (userId == default || visitId == default)
+        {
+            return null;
+        }
+
+        var visitTime = await _visitRepository.Get()
+            .Where(x => !x.Declined && x.Participants.Any(usr => usr.Id == userId))
+            .Select(x => x.Time)
+            .FirstOrDefaultAsync();
+
+        if (visitTime == default)
+            return null;
+
+        var timeStamp = DateTime.UtcNow - visitTime;
+        var dto = new TimerDto
+        {
+            Days = timeStamp.Days
+        };
+        timeStamp = timeStamp.Add(-TimeSpan.FromDays(dto.Days));
+        dto.Hours = timeStamp.Hours;
+        timeStamp = timeStamp.Add(-TimeSpan.FromHours(dto.Hours));
+        dto.Minutes = timeStamp.Minutes;
+        return dto;
+    }
+
     public async Task<List<GetTreatmentsDto>> GetTreatments(int patientId)
     {
         if (patientId == default)
