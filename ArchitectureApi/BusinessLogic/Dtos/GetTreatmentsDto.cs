@@ -3,5 +3,5 @@
 public class GetTreatmentsDto
 {
     public string Treatment { get; set; }
-    public string Doctor { get; set; }
+    public string? Doctor { get; set; }
 }

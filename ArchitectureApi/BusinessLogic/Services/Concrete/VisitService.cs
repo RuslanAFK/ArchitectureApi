@@ -43,7 +43,7 @@ public class VisitService : IVisitService
                 Notes = visit.Notes
             });
         
-        return await returns.ToListAsync();
+        return await returns.Reverse().ToListAsync();
     }
 
     public async Task<TimerDto?> GetTimer(int userId, int visitId)
@@ -84,19 +84,16 @@ public class VisitService : IVisitService
                                 .Any(u => u.Id == patientId &&
                                           u.Role == Roles.Patient.ToString())
                             && visit.Treatment != null)
-            .Select(visit => new
+            .Select(visit => new GetTreatmentsDto
             {
-                visit.Treatment,
+                Treatment = visit.Treatment,
                 Doctor = visit.Participants
                     .Where(x => x.Role == Roles.Doctor.ToString())
                     .Select(x => x.FullName)
                     .FirstOrDefault()
             });
-        var dto = returns.Select(x => new GetTreatmentsDto()
-        {
-            Treatment = x.Treatment!, Doctor = x.Doctor
-        });
-        return await dto.ToListAsync();
+        
+        return await returns.Reverse().ToListAsync();
     }
 
     public async Task<Visit> Create(User doctor, User patient, DateTime time, string? notes = null)
